@@ -1,0 +1,63 @@
+/* REMOVED: Font @import - use HTML link tags instead (non-blocking) */
+/* Google Fonts now loaded via <link> in HTML with async fallback */
+/* System fonts load instantly while Google Fonts load */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Use system fonts as fallback while Google Fonts load */
+* {
+  font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Base styles */
+body {
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html {
+  color-scheme: light;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-black;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Smooth transitions for dark mode */
+* {
+  @apply transition-colors duration-300;
+}
+
+/* Remove transition delay for performance */
+body.transitioning * {
+  @apply transition-none;
+}
+
+/* Optimize Framer Motion animations - prevent forced reflows */
+/* Use GPU acceleration for transforms and opacity */
+[style*="transform"], [style*="opacity"] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize height animations - use GPU acceleration */
+[class*="motion"] {
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* Prevent layout thrashing during animations */
+@supports (contain: layout) {
+  [class*="motion"] {
+    contain: layout style paint;
+  }
+}
+

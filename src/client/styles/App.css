@@ -1,0 +1,85 @@
+#root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  h1 {
+    font-size: clamp(2rem, 8vw, 5rem);
+  }
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 3rem);
+  }
+}
+
+/* Gradient text utilities */
+.text-gradient {
+  background: linear-gradient(135deg, #FF2D55, #FF6B35, #FFD60A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effect */
+.glow-red {
+  box-shadow: 0 0 20px rgba(255, 45, 85, 0.5);
+}
+
+.glow-orange {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+}
+
+/* Button states */
+button:active {
+  transform: scale(0.98);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #FF2D55, #FF6B35);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #FF6B35, #FFD60A);
+}
+
+/* Selection styling */
+::selection {
+  background: linear-gradient(135deg, #FF2D55, #FF6B35);
+  color: white;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  #root {
+    padding: 0;
+  }
+
+  * {
+    /* Better touch targets */
+    min-height: 44px;
+  }
+
+  button {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
