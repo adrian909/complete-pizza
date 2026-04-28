@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://backend.trifadrian.ro";
+const BACKEND_URL = import.meta.env.DEV ? "http://localhost:5000" : "https://backend.trifadrian.ro";
 
 let isIntercepted = false;
 

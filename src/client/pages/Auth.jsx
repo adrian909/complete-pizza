@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../hooks/useLanguage";
-import { LogIn, UserPlus, Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle } from "lucide-react";
-import { login, register } from "../../shared/utils/auth";
+import { LogIn, UserPlus, Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle, KeyRound } from "lucide-react";
+import { login, register, forgotPassword, resetPassword } from "../../shared/utils/auth";
 import { validatePassword, validateEmail, validateName, getPasswordStrength } from "../../shared/utils/validation";
 
-export default function Auth({ dark, onLoginSuccess, onBackClick }) {
+export default function Auth({ dark, onLoginSuccess, onBackClick, resetToken, onResetComplete }) {
   const { t } = useLanguage();
-  const [tab, setTab] = useState("login");
+  const [tab, setTab] = useState(resetToken ? "reset" : "login");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotSuccess, setForgotSuccess] = useState(false);
+  const [resetData, setResetData] = useState({ password: "", confirmPassword: "" });
+  const [resetSuccess, setResetSuccess] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState('weak');
+
+  useEffect(() => {
+    if (resetToken) {
+      setTab("reset");
+      setResetSuccess(false);
+      setErrors({});
+    }
+  }, [resetToken]);
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
@@ -92,6 +104,59 @@ export default function Auth({ dark, onLoginSuccess, onBackClick }) {
       setLoginData({ email: "", password: "" });
     } catch (error) {
       setErrors({ auth: error.message || "Autentificare eșuată. Verifică email-ul și parola." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!forgotEmail) {
+      setErrors({ email: "Email-ul este obligatoriu" });
+      return;
+    }
+    if (!validateEmail(forgotEmail)) {
+      setErrors({ email: "Format email invalid" });
+      return;
+    }
+
+    setLoading(true);
+    setErrors({});
+
+    try {
+      await forgotPassword(forgotEmail);
+      setForgotSuccess(true);
+    } catch (error) {
+      setErrors({ auth: error.message || t("forgotPasswordError") });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    const newErrors = {};
+
+    const passwordValidation = validatePassword(resetData.password);
+    if (!passwordValidation.valid) {
+      newErrors.password = passwordValidation.errors[0];
+    }
+    if (resetData.password !== resetData.confirmPassword) {
+      newErrors.confirmPassword = "Parolele nu coincid";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setLoading(true);
+    setErrors({});
+
+    try {
+      await resetPassword(resetToken, resetData.password);
+      setResetSuccess(true);
+      setResetData({ password: "", confirmPassword: "" });
+    } catch (error) {
+      setErrors({ auth: error.message || t("resetPasswordInvalidToken") });
     } finally {
       setLoading(false);
     }
@@ -268,12 +333,288 @@ export default function Auth({ dark, onLoginSuccess, onBackClick }) {
                   {loading ? t("loginLoading") : t("loginButton")}
                 </motion.button>
 
+                {/* Forgot Password Link */}
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTab("forgot");
+                      setErrors({});
+                      setForgotSuccess(false);
+                      setForgotEmail(loginData.email);
+                    }}
+                    className="text-sm text-fastfood-red hover:text-fastfood-orange transition underline-offset-2 hover:underline">
+                    {t("forgotPasswordLink")}
+                  </button>
+                </div>
+
                 {/* Demo Credentials */}
                 <div className={`p-3 rounded-lg text-xs ${dark ? "bg-neutral-800 text-neutral-400" : "bg-slate-100 text-slate-600"}`}>
                   <p className="font-semibold mb-1">{t("demoCredentials")}</p>
                   <p>{t("demoEmail")}</p>
                   <p>{t("demoPassword")}</p>
                 </div>
+              </motion.div>
+            )}
+
+            {/* RESET PASSWORD VIEW */}
+            {tab === "reset" && (
+              <motion.div
+                key="reset"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-4">
+                <div className="text-center mb-2">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-fastfood-red/10 text-fastfood-red mb-3">
+                    <KeyRound size={22} />
+                  </div>
+                  <h2 className="text-lg font-semibold">{t("resetPasswordTitle")}</h2>
+                  <p className={`text-sm mt-1 ${dark ? "text-neutral-400" : "text-slate-600"}`}>
+                    {t("resetPasswordDescription")}
+                  </p>
+                </div>
+
+                {!resetToken ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-3 rounded-lg bg-red-500/20 border border-red-500 text-red-400 text-sm flex items-start gap-2">
+                    <AlertCircle size={18} className="mt-0.5 shrink-0" />
+                    <span>{t("resetPasswordInvalidToken")}</span>
+                  </motion.div>
+                ) : resetSuccess ? (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 rounded-lg bg-green-500/20 border border-green-500 text-green-400 text-sm flex items-start gap-2">
+                      <CheckCircle size={18} className="mt-0.5 shrink-0" />
+                      <span>{t("resetPasswordSuccess")}</span>
+                    </motion.div>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        setTab("login");
+                        setResetSuccess(false);
+                        if (onResetComplete) onResetComplete();
+                      }}
+                      className="w-full py-3 rounded-lg bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-semibold hover:shadow-lg hover:shadow-fastfood-red/50 transition mt-2">
+                      {t("goToLogin")}
+                    </motion.button>
+                  </>
+                ) : (
+                  <>
+                    {errors.auth && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-3 rounded-lg bg-red-500/20 border border-red-500 text-red-400 text-sm">
+                        {errors.auth}
+                      </motion.div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
+                        <Lock size={16} /> {t("newPassword")}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          placeholder="••••••"
+                          value={resetData.password}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setResetData((prev) => ({ ...prev, password: value }));
+                            setPasswordStrength(getPasswordStrength(value));
+                            setErrors((prev) => ({ ...prev, password: "" }));
+                          }}
+                          className={`w-full px-4 py-3 rounded-lg border transition ${
+                            errors.password
+                              ? "border-red-500 bg-red-500/10"
+                              : dark
+                                ? "border-neutral-700 bg-neutral-800 focus:border-amber-400"
+                                : "border-slate-300 bg-white focus:border-amber-400"
+                          } focus:outline-none pr-10`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className={`absolute right-3 top-3 ${dark ? "text-neutral-400 hover:text-slate-300" : "text-slate-500 hover:text-slate-700"}`}>
+                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+
+                      {resetData.password && (
+                        <div className="mt-2">
+                          <div className="flex gap-1 mb-1">
+                            <div className={`h-1 flex-1 rounded ${
+                              passwordStrength === 'weak' ? 'bg-red-500' :
+                              passwordStrength === 'medium' ? 'bg-yellow-500' :
+                              'bg-green-500'
+                            }`} />
+                            <div className={`h-1 flex-1 rounded ${
+                              passwordStrength === 'medium' || passwordStrength === 'strong' ?
+                              (passwordStrength === 'medium' ? 'bg-yellow-500' : 'bg-green-500') :
+                              dark ? 'bg-neutral-700' : 'bg-slate-200'
+                            }`} />
+                            <div className={`h-1 flex-1 rounded ${
+                              passwordStrength === 'strong' ? 'bg-green-500' :
+                              dark ? 'bg-neutral-700' : 'bg-slate-200'
+                            }`} />
+                          </div>
+                        </div>
+                      )}
+
+                      {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
+                        <Lock size={16} /> {t("confirmNewPassword")}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          name="confirmPassword"
+                          placeholder="••••••"
+                          value={resetData.confirmPassword}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setResetData((prev) => ({ ...prev, confirmPassword: value }));
+                            setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+                          }}
+                          className={`w-full px-4 py-3 rounded-lg border transition ${
+                            errors.confirmPassword
+                              ? "border-red-500 bg-red-500/10"
+                              : dark
+                                ? "border-neutral-700 bg-neutral-800 focus:border-amber-400"
+                                : "border-slate-300 bg-white focus:border-amber-400"
+                          } focus:outline-none pr-10`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className={`absolute right-3 top-3 ${dark ? "text-neutral-400 hover:text-slate-300" : "text-slate-500 hover:text-slate-700"}`}>
+                          {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+                      {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleResetPassword}
+                      disabled={loading}
+                      className="w-full py-3 rounded-lg bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-semibold hover:shadow-lg hover:shadow-fastfood-red/50 transition disabled:opacity-50 mt-2">
+                      {loading ? t("resetPasswordLoading") : t("resetPasswordButton")}
+                    </motion.button>
+                  </>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTab("login");
+                    setResetSuccess(false);
+                    setErrors({});
+                    if (onResetComplete) onResetComplete();
+                  }}
+                  className={`w-full text-sm py-2 rounded-lg transition ${
+                    dark ? "text-neutral-400 hover:text-slate-200" : "text-slate-600 hover:text-slate-900"
+                  }`}>
+                  ← {t("backToLogin")}
+                </button>
+              </motion.div>
+            )}
+
+            {/* FORGOT PASSWORD VIEW */}
+            {tab === "forgot" && (
+              <motion.div
+                key="forgot"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-4">
+                <div className="text-center mb-2">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-fastfood-red/10 text-fastfood-red mb-3">
+                    <KeyRound size={22} />
+                  </div>
+                  <h2 className="text-lg font-semibold">{t("forgotPasswordTitle")}</h2>
+                  <p className={`text-sm mt-1 ${dark ? "text-neutral-400" : "text-slate-600"}`}>
+                    {t("forgotPasswordDescription")}
+                  </p>
+                </div>
+
+                {forgotSuccess ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-3 rounded-lg bg-green-500/20 border border-green-500 text-green-400 text-sm flex items-start gap-2">
+                    <CheckCircle size={18} className="mt-0.5 shrink-0" />
+                    <span>{t("forgotPasswordSuccess")}</span>
+                  </motion.div>
+                ) : (
+                  <>
+                    {errors.auth && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-3 rounded-lg bg-red-500/20 border border-red-500 text-red-400 text-sm">
+                        {errors.auth}
+                      </motion.div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
+                        <Mail size={16} /> Email
+                      </label>
+                      <input
+                        type="email"
+                        name="forgotEmail"
+                        placeholder="your@email.com"
+                        value={forgotEmail}
+                        onChange={(e) => {
+                          setForgotEmail(e.target.value);
+                          setErrors((prev) => ({ ...prev, email: "", auth: "" }));
+                        }}
+                        className={`w-full px-4 py-3 rounded-lg border transition ${
+                          errors.email
+                            ? "border-red-500 bg-red-500/10"
+                            : dark
+                              ? "border-neutral-700 bg-neutral-800 focus:border-amber-400"
+                              : "border-slate-300 bg-white focus:border-amber-400"
+                        } focus:outline-none`}
+                      />
+                      {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleForgotPassword}
+                      disabled={loading}
+                      className="w-full py-3 rounded-lg bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-semibold hover:shadow-lg hover:shadow-fastfood-red/50 transition disabled:opacity-50 mt-2">
+                      {loading ? t("forgotPasswordLoading") : t("forgotPasswordButton")}
+                    </motion.button>
+                  </>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTab("login");
+                    setErrors({});
+                    setForgotSuccess(false);
+                  }}
+                  className={`w-full text-sm py-2 rounded-lg transition ${
+                    dark ? "text-neutral-400 hover:text-slate-200" : "text-slate-600 hover:text-slate-900"
+                  }`}>
+                  ← {t("backToLogin")}
+                </button>
               </motion.div>
             )}
 

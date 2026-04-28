@@ -5,8 +5,7 @@
 const TOKEN_KEY = 'jwt_token';
 const USER_KEY = 'currentUser';
 const CSRF_TOKEN_KEY = 'csrf_token';
-// Use local proxy in development, direct URL in production
-const API_BASE_URL = import.meta.env.DEV ? '' : 'https://backend.trifadrian.ro';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:5000' : 'https://backend.trifadrian.ro';
 
 /**
  * Get CSRF token from backend
@@ -167,6 +166,69 @@ export const login = async (email, password) => {
   }
   
   return data;
+};
+
+/**
+ * Request a password reset email
+ * @param {string} email
+ * @returns {Promise<Object>} - { message }
+ */
+export const forgotPassword = async (email) => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ email })
+  });
+
+  if (!response.ok) {
+    let errorMessage = 'Password reset request failed';
+    try {
+      const text = await response.text();
+      if (text) {
+        const error = JSON.parse(text);
+        errorMessage = error.message || errorMessage;
+      }
+    } catch (e) {
+      // Use default error message
+    }
+    throw new Error(errorMessage);
+  }
+
+  const text = await response.text();
+  return text ? JSON.parse(text) : {};
+};
+
+/**
+ * Reset password using a token from the email link
+ * @param {string} token
+ * @param {string} newPassword
+ * @returns {Promise<Object>} - { message }
+ */
+export const resetPassword = async (token, newPassword) => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ token, newPassword })
+  });
+
+  if (!response.ok) {
+    let errorMessage = 'Password reset failed';
+    try {
+      const text = await response.text();
+      if (text) {
+        const error = JSON.parse(text);
+        errorMessage = error.message || errorMessage;
+      }
+    } catch (e) {
+      // Use default error message
+    }
+    throw new Error(errorMessage);
+  }
+
+  const text = await response.text();
+  return text ? JSON.parse(text) : {};
 };
 
 /**

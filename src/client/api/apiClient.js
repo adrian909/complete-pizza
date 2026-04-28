@@ -1,8 +1,7 @@
 import { getAuthHeaders, logout } from "../../shared/utils/auth";
 import { apiRateLimiter } from "../../shared/utils/security";
 
-// Use local proxy in development, direct URL in production
-const BACKEND_URL = import.meta.env.DEV ? '' : 'https://backend.trifadrian.ro';
+const BACKEND_URL = import.meta.env.DEV ? 'http://localhost:5000' : 'https://backend.trifadrian.ro';
 
 /**
  * Fetch helper with full security integration
@@ -68,7 +67,8 @@ export const apiPost = async (endpoint, data) => {
     body: JSON.stringify(data),
   });
   if (!response.ok) {
-    throw new Error(`API POST failed: ${response.statusText}`);
+    const body = await response.text().catch(() => '');
+    throw new Error(`API POST ${endpoint} failed: ${response.status} ${response.statusText} — ${body}`);
   }
   return response.json();
 };

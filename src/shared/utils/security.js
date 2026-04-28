@@ -190,7 +190,7 @@ class RateLimiter {
 }
 
 // Export singleton instance for API calls
-export const apiRateLimiter = new RateLimiter(30, 60000); // 30 requests per minute
+export const apiRateLimiter = new RateLimiter(300, 60000); // 300 requests per minute
 
 /**
  * Validate URL to prevent open redirect vulnerabilities

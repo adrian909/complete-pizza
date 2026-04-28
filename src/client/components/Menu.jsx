@@ -5,7 +5,7 @@ import { useMobileOptimization } from "../hooks/useMobileOptimization";
 import { useLanguage } from "../hooks/useLanguage";
 
 // Helper function to build API URLs
-const API_BASE_URL = "https://backend.trifadrian.ro";
+const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : "https://backend.trifadrian.ro";
 const getApiUrl = (path) => `${API_BASE_URL}${path}`;
 
 // Memoized product card to prevent unnecessary re-renders

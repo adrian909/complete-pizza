@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy, startTransition, useCallbac
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, MapPin, Phone, Mail, X, LogOut, User, Settings } from "lucide-react";
 import { debug } from "../shared/utils/debug";
-import { apiPut } from "./api/apiClient";
+import { apiPut, apiPost } from "./api/apiClient";
 import { useMobileOptimization } from "./hooks/useMobileOptimization";
 import { useLanguage } from "./hooks/useLanguage";
 import { LanguageProvider } from "./context/LanguageContext";
@@ -13,7 +13,7 @@ import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import { ShoppingBag, Plus, Minus } from "lucide-react";
 
-const API_BASE_URL = "https://backend.trifadrian.ro";
+const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : "https://backend.trifadrian.ro";
 const getApiUrl = (path) => `${API_BASE_URL}${path}`;
 const Location = lazy(() => import("./components/Location"));
 const Testimonials = lazy(() => import("./components/Testimonials"));
@@ -66,6 +66,16 @@ function AppContent() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [resetToken, setResetToken] = useState(() => {
+    if (typeof window === 'undefined') return null;
+    if (window.location.pathname !== '/reset-password') return null;
+    const params = new URLSearchParams(window.location.search);
+    return params.get('token') || null;
+  });
+
+  useEffect(() => {
+    if (resetToken) setShowAuth(true);
+  }, [resetToken]);
   const [showMyOrders, setShowMyOrders] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -565,19 +575,10 @@ function AppContent() {
 
     let firestoreId;
     try {
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newOrder),
-      });
-
-      if (response.ok) {
-        const result = JSON.parse(await response.text());
-        firestoreId = result.id || result.firestoreId || id;
-      } else {
-        throw new Error(`Backend failed with status ${response.status}`);
-      }
+      const result = await apiPost("/api/orders", newOrder);
+      firestoreId = result.id || result.firestoreId || id;
     } catch (error) {
+      console.error('Failed to place order:', error);
       alert(t("orderSaveError"));
       throw error;
     }
@@ -629,11 +630,26 @@ function AppContent() {
             <Suspense fallback={<LoadingFallback />}>
               <Auth
                 dark={dark}
+                resetToken={resetToken}
+                onResetComplete={() => {
+                  setResetToken(null);
+                  if (window.location.pathname === '/reset-password') {
+                    window.history.replaceState({}, '', '/');
+                  }
+                }}
                 onLoginSuccess={(user) => {
                   setCurrentUser(user);
                   setShowAuth(false);
                 }}
-                onBackClick={() => setShowAuth(false)}
+                onBackClick={() => {
+                  if (resetToken) {
+                    setResetToken(null);
+                    if (window.location.pathname === '/reset-password') {
+                      window.history.replaceState({}, '', '/');
+                    }
+                  }
+                  setShowAuth(false);
+                }}
               />
             </Suspense>
           </motion.div>

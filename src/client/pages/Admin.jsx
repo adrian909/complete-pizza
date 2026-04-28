@@ -5,6 +5,9 @@ import { useLanguage } from "../hooks/useLanguage";
 import { ArrowLeft, Plus, Edit2, Trash2, CheckCircle, Clock, X, Shield, Settings, Upload } from "lucide-react";
 import { apiCall, apiGet, apiPost, apiPut, apiDelete } from "../api/apiClient";
 
+const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : "https://backend.trifadrian.ro";
+const getApiUrl = (path) => `${API_BASE_URL}${path}`;
+
 // All data operations handled by backend API with authentication
 
 export default function Admin({ dark, onBack, products = [], setProducts, orders = [], setOrders, currentUser, locationToday, setLocationToday }) {
@@ -186,25 +189,20 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        // Load from backend API
-        const response = await fetch(getApiUrl("/api/users"));
-        if (response.ok) {
-          const data = await response.json();
-          const documents = data.documents || [];
-          const parsedUsers = documents.map(doc => ({
-            id: doc.name.split('/').pop(),
-            name: doc.fields.name?.stringValue || "",
-            email: doc.fields.email?.stringValue || "",
-            phone: doc.fields.phone?.stringValue || "",
-            address: doc.fields.address?.stringValue || "",
-            role: doc.fields.role?.stringValue || "user"
-          }));
-          setUsers(parsedUsers);
-          localStorage.setItem("users", JSON.stringify(parsedUsers));
-        } else {
-          setUsers([]);
-        }
+        const data = await apiGet("/api/users");
+        const documents = data.documents || [];
+        const parsedUsers = documents.map(doc => ({
+          id: doc.name.split('/').pop(),
+          name: doc.fields.name?.stringValue || "",
+          email: doc.fields.email?.stringValue || "",
+          phone: doc.fields.phone?.stringValue || "",
+          address: doc.fields.address?.stringValue || "",
+          role: doc.fields.role?.stringValue || "user"
+        }));
+        setUsers(parsedUsers);
+        localStorage.setItem("users", JSON.stringify(parsedUsers));
       } catch (error) {
+        console.error('Failed to load users:', error);
         setUsers([]);
       }
     };
@@ -461,7 +459,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
 
       if (editingId) {
         // Update existing product via backend
-        const response = await fetch(`https://backend.trifadrian.ro/api/products/${editingId}`, {
+        const response = await fetch(getApiUrl(`/api/products/${editingId}`), {
           method: "PUT",
           headers: { 
             "Content-Type": "application/json",
@@ -514,7 +512,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
         }
       } else {
         // Add new product via backend
-        const response = await fetch(`https://backend.trifadrian.ro/api/products`, {
+        const response = await fetch(getApiUrl(`/api/products`), {
           method: "POST",
           headers: { 
             "Content-Type": "application/json",
@@ -589,7 +587,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
   const handleDeleteProduct = async (id) => {
     if (window.confirm(t("confirm"))) {
       try {
-        const response = await fetch(`https://backend.trifadrian.ro/api/products/${id}`, {
+        const response = await fetch(getApiUrl(`/api/products/${id}`), {
           method: "DELETE",
         });
         
@@ -658,25 +656,23 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
     }
   };
 
-  // Get all users from Firestore
+  // Get all users from backend
   const reloadUsers = async () => {
     try {
-      const response = await fetch(getApiUrl("/api/users"));
-      if (response.ok) {
-        const data = await response.json();
-        const documents = data.documents || [];
-        const parsedUsers = documents.map(doc => ({
-          id: doc.name.split('/').pop(),
-          name: doc.fields.name?.stringValue || "",
-          email: doc.fields.email?.stringValue || "",
-          phone: doc.fields.phone?.stringValue || "",
-          address: doc.fields.address?.stringValue || "",
-          role: doc.fields.role?.stringValue || "user"
-        }));
-        setUsers(parsedUsers);
-        localStorage.setItem("users", JSON.stringify(parsedUsers));
-      }
+      const data = await apiGet("/api/users");
+      const documents = data.documents || [];
+      const parsedUsers = documents.map(doc => ({
+        id: doc.name.split('/').pop(),
+        name: doc.fields.name?.stringValue || "",
+        email: doc.fields.email?.stringValue || "",
+        phone: doc.fields.phone?.stringValue || "",
+        address: doc.fields.address?.stringValue || "",
+        role: doc.fields.role?.stringValue || "user"
+      }));
+      setUsers(parsedUsers);
+      localStorage.setItem("users", JSON.stringify(parsedUsers));
     } catch (error) {
+      console.error('Failed to reload users:', error);
       setUsers([]);
     }
   };
@@ -684,18 +680,10 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
   // Update user role
   const handleUpdateUserRole = async (userId, newRole) => {
     try {
-      const response = await fetch(getApiUrl(`/api/users/${userId}`), {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role: newRole })
-      });
-      
-      if (response.ok) {
-        await reloadUsers();
-      } else {
-        alert(t("roleUpdateError"));
-      }
+      await apiPut(`/api/users/${userId}`, { role: newRole });
+      await reloadUsers();
     } catch (error) {
+      console.error('Failed to update user role:', error);
       alert(t("roleUpdateError"));
     }
   };
@@ -707,19 +695,11 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
       return;
     }
     try {
-      const response = await fetch(getApiUrl(`/api/users/${userId}`), {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email })
-      });
-      
-      if (response.ok) {
-        await reloadUsers();
-        alert(t("userUpdated"));
-      } else {
-        alert(t("userUpdateError"));
-      }
+      await apiPut(`/api/users/${userId}`, { name, email });
+      await reloadUsers();
+      alert(t("userUpdated"));
     } catch (error) {
+      console.error('Failed to update user:', error);
       alert(t("userUpdateError"));
     }
   };
@@ -728,16 +708,10 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
   const handleDeleteUser = async (userId, userEmail) => {
     if (window.confirm(t("confirm"))) {
       try {
-        const response = await fetch(getApiUrl(`/api/users/${userId}`), {
-          method: "DELETE"
-        });
-        
-        if (response.ok) {
-          await reloadUsers();
-        } else {
-          alert(t("userDeleteError"));
-        }
+        await apiDelete(`/api/users/${userId}`);
+        await reloadUsers();
       } catch (error) {
+        console.error('Failed to delete user:', error);
         alert(t("userDeleteError"));
       }
     }
@@ -1528,7 +1502,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
                       {/* Header - Clickable */}
                       <div
                         onClick={() => setExpandedUser(expandedUser === user.id ? null : user.id)}
-                        className={`p-4 cursor-pointer hover:opacity-80 transition flex items-center justify-between ${
+                        className={`p-4 cursor-pointer transition flex items-center justify-between ${
                           dark ? "hover:bg-gray-700/30" : "hover:bg-gray-50"
                         }`}>
                         <div className="flex-1">

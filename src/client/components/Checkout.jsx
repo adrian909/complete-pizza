@@ -4,10 +4,7 @@ import { debug } from "../../shared/utils/debug";
 import { useLanguage } from "../hooks/useLanguage";
 import { Home, MapPin, Truck, X, CreditCard, Banknote, Map, Navigation, Search } from "lucide-react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-
-// Helper function to build API URLs
-const API_BASE_URL = "https://backend.trifadrian.ro";
-const getApiUrl = (path) => `${API_BASE_URL}${path}`;
+import { apiGet } from "../api/apiClient";
 
 export default function Checkout({
   dark,
@@ -70,7 +67,7 @@ export default function Checkout({
     if (parts.length > 0) {
       // First part contains street and number
       const firstPart = parts[0];
-      const match = firstPart.match(/^(.+?)\s+(\d+)$/);
+      const match = firstPart.match(/^(.+?)\s+(\d[\w-]*)$/);
       if (match) {
         street = match[1].trim();
         number = match[2].trim();
@@ -114,70 +111,50 @@ export default function Checkout({
 
       const loadUserData = async () => {
         try {
-          const response = await fetch(getApiUrl(`/api/users/${currentUser.id}`));
-          if (response.ok) {
-            const data = await response.json();
-            
-            let loadedAddress = "";
-            if (data.fields) {
-              loadedAddress = data.fields.address?.stringValue || currentUser.address || "";
-              setFormData({
-                name: data.fields.name?.stringValue || currentUser.name || "",
-                email: data.fields.email?.stringValue || currentUser.email || "",
-                phone: data.fields.phone?.stringValue || currentUser.phone || "",
-                address: loadedAddress,
-              });
+          const data = await apiGet(`/api/users/${currentUser.id}`);
 
-              // Load address details if available (Firestore format)
-              if (data.fields.addressDetails?.mapValue?.fields) {
-                const addressDetailsFields = data.fields.addressDetails.mapValue.fields;
-                const loadedAddressDetails = {
-                  street: addressDetailsFields.street?.stringValue || "",
-                  number: addressDetailsFields.number?.stringValue || "",
-                  apartment: addressDetailsFields.apartment?.stringValue || "",
-                  city: addressDetailsFields.city?.stringValue || "Sebeș",
-                };
-                setAddressDetails(loadedAddressDetails);
-              } else if (loadedAddress) {
-                // Parse address string if no structured addressDetails
-                const parsed = parseAddress(loadedAddress);
-                setAddressDetails(parsed);
-              }
-            } else {
-              loadedAddress = currentUser.address || "";
-              setFormData({
-                name: currentUser.name || "",
-                email: currentUser.email || "",
-                phone: currentUser.phone || "",
-                address: loadedAddress,
-              });
+          let loadedAddress = "";
+          if (data.fields) {
+            loadedAddress = data.fields.address?.stringValue || currentUser.address || "";
+            setFormData({
+              name: data.fields.name?.stringValue || currentUser.name || "",
+              email: data.fields.email?.stringValue || currentUser.email || "",
+              phone: data.fields.phone?.stringValue || currentUser.phone || "",
+              address: loadedAddress,
+            });
 
-              // Load address details from currentUser (object format)
-              if (currentUser.addressDetails) {
-                setAddressDetails(currentUser.addressDetails);
-              } else if (loadedAddress) {
-                // Parse address string
-                const parsed = parseAddress(loadedAddress);
-                setAddressDetails(parsed);
-              }
+            // Load address details if available (Firestore format)
+            if (data.fields.addressDetails?.mapValue?.fields) {
+              const addressDetailsFields = data.fields.addressDetails.mapValue.fields;
+              const loadedAddressDetails = {
+                street: addressDetailsFields.street?.stringValue || "",
+                number: addressDetailsFields.number?.stringValue || "",
+                apartment: addressDetailsFields.apartment?.stringValue || "",
+                city: addressDetailsFields.city?.stringValue || "Sebeș",
+              };
+              setAddressDetails(loadedAddressDetails);
+            } else if (loadedAddress) {
+              const parsed = parseAddress(loadedAddress);
+              setAddressDetails(parsed);
             }
           } else {
-            const address = currentUser.address || "";
+            loadedAddress = currentUser.address || "";
             setFormData({
               name: currentUser.name || "",
               email: currentUser.email || "",
               phone: currentUser.phone || "",
-              address: address,
+              address: loadedAddress,
             });
 
             if (currentUser.addressDetails) {
               setAddressDetails(currentUser.addressDetails);
-            } else if (address) {
-              const parsed = parseAddress(address);
+            } else if (loadedAddress) {
+              const parsed = parseAddress(loadedAddress);
               setAddressDetails(parsed);
             }
           }
         } catch (error) {
+          console.error('Failed to load user data:', error);
           const address = currentUser.address || "";
           setFormData({
             name: currentUser.name || "",
