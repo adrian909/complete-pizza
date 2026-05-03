@@ -1,17 +1,22 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Convert Vite-injected blocking CSS links to async preload pattern
+// Convert Vite-injected blocking CSS links to async preload pattern.
+// order:'post' ensures this runs after Vite registers inline <style> proxy modules —
+// running earlier corrupts Vite's internal html-proxy path map and breaks the build.
 const asyncCSSPlugin = {
   name: 'async-css',
   apply: 'build',
-  transformIndexHtml(html) {
-    return html.replace(
-      /<link rel="stylesheet" crossorigin href="([^"]+)">/g,
-      (_, href) =>
-        `<link rel="preload" as="style" crossorigin href="${href}" onload="this.onload=null;this.rel='stylesheet'">` +
-        `<noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
-    );
+  transformIndexHtml: {
+    order: 'post',
+    handler(html) {
+      return html.replace(
+        /<link rel="stylesheet" crossorigin href="([^"]+)">/g,
+        (_, href) =>
+          `<link rel="preload" as="style" crossorigin href="${href}" onload="this.onload=null;this.rel='stylesheet'">` +
+          `<noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
+      );
+    },
   },
 };
 

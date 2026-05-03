@@ -5,7 +5,8 @@
       "Bash(node -e ' *)",
       "Bash(node --input-type=module -e ' *)",
       "Bash(python -c ' *)",
-      "Bash(node --input-type=module -e \"import { translations } from './src/client/constants/translations.js'; console.log\\('ro keys:', Object.keys\\(translations.ro\\).length, '| en keys:', Object.keys\\(translations.en\\).length, '| Sample loginButton ro:', translations.ro.loginButton, '| en:', translations.en.loginButton\\);\")"
+      "Bash(node --input-type=module -e \"import { translations } from './src/client/constants/translations.js'; console.log\\('ro keys:', Object.keys\\(translations.ro\\).length, '| en keys:', Object.keys\\(translations.en\\).length, '| Sample loginButton ro:', translations.ro.loginButton, '| en:', translations.en.loginButton\\);\")",
+      "Bash(npm run *)"
     ]
   }
 }
