@@ -25,6 +25,7 @@ export default function Checkout({
   });
   const [deliveryOption, setDeliveryOption] = useState("home");
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 45.9572, lng: 23.5684 });
   const [searchInput, setSearchInput] = useState("");
@@ -512,19 +513,17 @@ export default function Checkout({
       paymentMethod: paymentMethod,
     };
 
-    // Wait for placeOrder to complete before resetting form
+    if (isPlacingOrder) return;
+    setIsPlacingOrder(true);
     try {
       await placeOrder(checkoutPayload);
-      // Only reset customer info, but keep address details for next order autocomplete
       setFormData({ name: "", email: "", phone: "", address: "" });
-      // Don't reset addressDetails - they'll be reloaded from user profile
-      // setAddressDetails({ street: "", number: "", apartment: "", city: "" });
-      // setOtherAddressDetails({ street: "", number: "", apartment: "", city: "" });
       setDeliveryOption("home");
       setPaymentMethod("card");
-
     } catch (error) {
       // Keep form data if error occurs
+    } finally {
+      setIsPlacingOrder(false);
     }
   };
 
@@ -764,11 +763,12 @@ export default function Checkout({
                       {t("back")}
                     </motion.button>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={isPlacingOrder ? {} : { scale: 1.05 }}
+                      whileTap={isPlacingOrder ? {} : { scale: 0.95 }}
                       onClick={handlePlaceOrder}
-                      className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-bold hover:shadow-lg hover:shadow-fastfood-red/50 transition-all duration-200">
-                      {t("place")}
+                      disabled={isPlacingOrder}
+                      className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-bold hover:shadow-lg hover:shadow-fastfood-red/50 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+                      {isPlacingOrder ? t("placingOrder") : t("place")}
                     </motion.button>
                   </div>
                 </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { debug } from "../../shared/utils/debug";
 import { useLanguage } from "../hooks/useLanguage";
-import { ArrowLeft, Plus, Edit2, Trash2, CheckCircle, Clock, X, Shield, Settings, Upload } from "lucide-react";
+import { ArrowLeft, Plus, Edit2, Trash2, CheckCircle, Clock, X, Settings, Upload } from "lucide-react";
 import { apiCall, apiGet, apiPost, apiPut, apiDelete } from "../api/apiClient";
 
 const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : "https://backend.trifadrian.ro";
@@ -10,7 +10,7 @@ const getApiUrl = (path) => `${API_BASE_URL}${path}`;
 
 // All data operations handled by backend API with authentication
 
-export default function Admin({ dark, onBack, products = [], setProducts, orders = [], setOrders, currentUser, locationToday, setLocationToday }) {
+export default function Admin({ dark, onBack, products = [], setProducts, orders = [], setOrders, locationToday, setLocationToday }) {
   const { t } = useLanguage();
   const [users, setUsers] = useState([]);
   
@@ -24,33 +24,6 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
     safeOrdersRef.current = safeOrders;
   }, [safeOrders]);
   
-  // Check if user is admin
-  if (!currentUser || currentUser.role !== "admin") {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className={`min-h-screen flex items-center justify-center ${
-          dark
-            ? "bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white"
-            : "bg-gradient-to-b from-white to-gray-50 text-gray-900"
-        }`}>
-        <div className="text-center">
-          <Shield size={64} className="mx-auto mb-4 text-fastfood-red" />
-          <h1 className="text-3xl font-bold mb-2">{t("accessDenied")}</h1>
-          <p className={`mb-6 ${dark ? "text-gray-400" : "text-gray-600"}`}>{t("onlyAdminsAccess")}</p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onBack}
-            className="px-6 py-3 bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-fastfood-red/50 transition">
-            {t("backToSite")}
-          </motion.button>
-        </div>
-      </motion.div>
-    );
-  }
-
   const [tab, setTab] = useState("products");
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -58,6 +31,8 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
   const [editingUserId, setEditingUserId] = useState(null);
   const [editingUserData, setEditingUserData] = useState({ name: "", email: "" });
   const [isLoading, setIsLoading] = useState(true);
+  const [isSavingProduct, setIsSavingProduct] = useState(false);
+  const [isSavingLocation, setIsSavingLocation] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [expandedUser, setExpandedUser] = useState(null);
   const [etaTimers, setEtaTimers] = useState({}); // Track ETA timers per order in seconds
@@ -423,12 +398,16 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
       alert(t("locationNameRequired"));
       return;
     }
+    if (isSavingLocation) return;
+    setIsSavingLocation(true);
     try {
       // For now, just store location in state
       // Backend settings can be updated when needed
       alert(t("settingsSaved"));
     } catch (error) {
       alert(t("settingsSaveError") + error.message);
+    } finally {
+      setIsSavingLocation(false);
     }
   };
 
@@ -438,6 +417,8 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
       alert(t("titlePriceRequired"));
       return;
     }
+    if (isSavingProduct) return;
+    setIsSavingProduct(true);
 
     try {
       // Send complete product data in backend format
@@ -566,6 +547,8 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
       }
     } catch (error) {
       alert(t("productSaveError") + ": " + error.message);
+    } finally {
+      setIsSavingProduct(false);
     }
   };
 
@@ -585,7 +568,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
 
   // Delete product via Backend
   const handleDeleteProduct = async (id) => {
-    if (window.confirm(t("confirm"))) {
+    if (window.confirm(t("confirmDeleteProduct"))) {
       try {
         const response = await fetch(getApiUrl(`/api/products/${id}`), {
           method: "DELETE",
@@ -637,7 +620,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
 
   // Delete order via Backend
   const handleDeleteOrder = async (order) => {
-    if (window.confirm(t("confirm"))) {
+    if (window.confirm(t("confirmDeleteOrder"))) {
       setDeletingOrderId(order.firestoreId);
       try {
         const response = await fetch(getApiUrl(`/api/orders/${order.firestoreId}`), {
@@ -706,7 +689,7 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
 
   // Delete user
   const handleDeleteUser = async (userId, userEmail) => {
-    if (window.confirm(t("confirm"))) {
+    if (window.confirm(t("confirmDeleteUser"))) {
       try {
         await apiDelete(`/api/users/${userId}`);
         await reloadUsers();
@@ -1080,8 +1063,9 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
                     </button>
                     <button
                       onClick={handleSaveProduct}
-                      className="px-4 py-2 bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white rounded-lg font-bold hover:shadow-lg hover:shadow-fastfood-red/50 transition">
-                      {editingId ? t("update") : t("addProduct")}
+                      disabled={isSavingProduct}
+                      className="px-4 py-2 bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white rounded-lg font-bold hover:shadow-lg hover:shadow-fastfood-red/50 transition disabled:opacity-60 disabled:cursor-not-allowed">
+                      {isSavingProduct ? t("saving") : (editingId ? t("update") : t("addProduct"))}
                     </button>
                   </div>
                 </motion.div>
@@ -1713,11 +1697,12 @@ export default function Admin({ dark, onBack, products = [], setProducts, orders
                 </p>
                 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={isSavingLocation ? {} : { scale: 1.02 }}
+                  whileTap={isSavingLocation ? {} : { scale: 0.98 }}
                   onClick={handleSaveLocation}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-fastfood-orange to-fastfood-red text-white font-bold rounded-lg hover:shadow-lg hover:shadow-fastfood-orange/50 transition-all duration-200">
-                  💾 {t("saveLocation")}
+                  disabled={isSavingLocation}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-fastfood-orange to-fastfood-red text-white font-bold rounded-lg hover:shadow-lg hover:shadow-fastfood-orange/50 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+                  💾 {isSavingLocation ? t("saving") : t("saveLocation")}
                 </motion.button>
               </div>
 

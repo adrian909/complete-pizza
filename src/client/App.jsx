@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy, startTransition, useCallbac
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, MapPin, Phone, Mail, X, LogOut, User, Settings } from "lucide-react";
 import { debug } from "../shared/utils/debug";
-import { apiPut, apiPost } from "./api/apiClient";
+import { apiPut, apiPost, apiGet } from "./api/apiClient";
 import { useMobileOptimization } from "./hooks/useMobileOptimization";
 import { useLanguage } from "./hooks/useLanguage";
 import { LanguageProvider } from "./context/LanguageContext";
@@ -233,22 +233,18 @@ function AppContent() {
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        const response = await fetch("/api/settings/config");
-        if (response.ok) {
-          const configDoc = await response.json();
-          if (configDoc) {
-            startTransition(() => {
-              setLocationToday({
-                name: configDoc.name || "Sebes",
-                mapLink: configDoc.mapLink || "",
-                googleMapsLink: configDoc.googleMapsLink || "",
-                etaPickupBase: configDoc.etaPickupBase || 15,
-                etaDeliveryBase: configDoc.etaDeliveryBase || 30,
-                etaPerItem: configDoc.etaPerItem || 2,
-              });
+        const configDoc = await apiGet("/api/settings/config");
+        if (configDoc) {
+          startTransition(() => {
+            setLocationToday({
+              name: configDoc.name || "Sebes",
+              mapLink: configDoc.mapLink || "",
+              googleMapsLink: configDoc.googleMapsLink || "",
+              etaPickupBase: configDoc.etaPickupBase || 15,
+              etaDeliveryBase: configDoc.etaDeliveryBase || 30,
+              etaPerItem: configDoc.etaPerItem || 2,
             });
-          } else {
-          }
+          });
         }
       } catch (error) {
       }
@@ -264,18 +260,16 @@ function AppContent() {
     // Poll backend for order status updates every 10 seconds
     const interval = setInterval(async () => {
       try {
-        const response = await fetch(`/api/orders/${orderPlaced.firestoreId}`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.fields) {
-            setOrderPlaced((prev) => ({
-              ...prev,
-              eta: data.fields.eta?.integerValue || prev.eta,
-              status: data.fields.status?.stringValue || prev.status,
-            }));
-          }
+        const data = await apiGet(`/api/orders/${orderPlaced.firestoreId}`);
+        if (data.fields) {
+          setOrderPlaced((prev) => ({
+            ...prev,
+            eta: data.fields.eta?.integerValue || prev.eta,
+            status: data.fields.status?.stringValue || prev.status,
+          }));
         }
       } catch (error) {
+        // Silent fail on poll
       }
     }, 10000);
 
@@ -287,10 +281,8 @@ function AppContent() {
       try {
         const fetchProducts = async () => {
           try {
-            const response = await fetch("/api/products");
-            if (response.ok) {
-              const data = await response.json();
-              if (data.documents && Array.isArray(data.documents)) {
+            const data = await apiGet("/api/products");
+            if (data.documents && Array.isArray(data.documents)) {
                 const formattedProducts = data.documents.map(doc => {
                   const fields = doc.fields || {};
                   let customizations = [];
@@ -316,8 +308,8 @@ function AppContent() {
                 });
                 setProducts(formattedProducts);
               }
-            }
           } catch (error) {
+            // Silent fail
           }
         };
 
