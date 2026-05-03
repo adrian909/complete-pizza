@@ -4,8 +4,11 @@ import { debug } from "../../shared/utils/debug";
 import { useLanguage } from "../hooks/useLanguage";
 import { Home, MapPin, Truck, X, CreditCard, Banknote, Map, Navigation, Search } from "lucide-react";
 import { useGoogleMaps } from "../hooks/useGoogleMaps";
-import GoogleMapDiv from "./GoogleMapDiv";
+import { useScrollLock } from "../../shared/utils/scrollLock";
 import { apiGet } from "../api/apiClient";
+
+// Only load GoogleMapDiv when actually needed
+const GoogleMapDiv = React.lazy(() => import("./GoogleMapDiv"));
 
 export default function Checkout({
   dark,
@@ -48,6 +51,12 @@ export default function Checkout({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const forwardGeocodeTimeoutRef = useRef(null);
   const suggestionsTimeoutRef = useRef(null);
+
+  // Only load Google Maps when modal is shown
+  const { isLoaded } = useGoogleMaps(
+    showCheckout ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : "",
+    showCheckout ? ["places"] : []
+  );
   const isInitialMapLoadRef = useRef(true);
   const skipNextIdleRef = useRef(false);
   const userDraggingRef = useRef(false);
@@ -177,22 +186,14 @@ export default function Checkout({
     }
   }, [showCheckout, currentUser]);
 
-  const { isLoaded } = useGoogleMaps(import.meta.env.VITE_GOOGLE_MAPS_API_KEY, ["places"]);
+  // Use centralized scroll lock to prevent forced reflows
+  useScrollLock(showCheckout);
 
-  // Handle body scroll when Checkout opens/closes
+  // Close cart modal when checkout opens
   useEffect(() => {
-    if (showCheckout) {
-      document.body.style.overflow = 'hidden';
-      // Close cart modal when checkout opens
-      if (onCheckoutOpen) {
-        onCheckoutOpen();
-      }
-    } else {
-      document.body.style.overflow = 'unset';
+    if (showCheckout && onCheckoutOpen) {
+      onCheckoutOpen();
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [showCheckout, onCheckoutOpen]);
 
   // Reset map to Sebeș when map picker opens
@@ -588,16 +589,17 @@ export default function Checkout({
                     </div>
                     {c.customizations && Object.keys(c.customizations).length > 0 && (
                       <div className="ml-4 mt-1 text-xs space-y-0.5">
-                        {Object.entries(c.customizations).map(([key, value]) => {
-                          if (!value) return null;
-                          const isRemove = key.startsWith("remove-");
-                          const label = key.replace(/^(remove|add)-/, "");
-                          return (
-                            <div key={key} className={dark ? "text-neutral-400" : "text-gray-600"}>
-                              {isRemove ? "-" : "+"} {label}
-                            </div>
-                          );
-                        })}
+                        {Object.entries(c.customizations)
+                          .filter(([key, value]) => value)
+                          .map(([key, value]) => {
+                            const isRemove = key.startsWith("remove-");
+                            const label = key.replace(/^(remove|add)-/, "");
+                            return (
+                              <div key={key} className={dark ? "text-neutral-400" : "text-gray-600"}>
+                                {isRemove ? "-" : "+"} {label}
+                              </div>
+                            );
+                          })}
                       </div>
                     )}
                   </div>

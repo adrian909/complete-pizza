@@ -28,9 +28,10 @@ export const apiCall = async (endpoint, options = {}) => {
 
   // Handle 401 Unauthorized - token expired or invalid
   if (response.status === 401) {
+    console.warn('API returned 401 Unauthorized - clearing session');
     logout();
     window.dispatchEvent(new CustomEvent('auth:unauthorized'));
-    throw new Error('Authentication required. Please login again.');
+    throw new Error('Your session has expired. Please login again.');
   }
 
   // Handle 403 Forbidden - no permission

@@ -19,6 +19,7 @@ function _loadScript(apiKey, libraries) {
   const libs = libraries.length ? `&libraries=${libraries.join(",")}` : "";
   script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}${libs}&callback=__googleMapsReady`;
   script.async = true;
+  script.defer = true; // Mark as defer for better loading performance
   script.onerror = () => {
     _status = "error";
     _queue.length = 0;
@@ -28,10 +29,16 @@ function _loadScript(apiKey, libraries) {
 
 export function useGoogleMaps(apiKey, libraries = []) {
   const [isLoaded, setIsLoaded] = useState(_status === "ready");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (_status === "ready") {
       setIsLoaded(true);
+      return;
+    }
+
+    if (_status === "error") {
+      setError(new Error("Failed to load Google Maps"));
       return;
     }
 
@@ -46,5 +53,5 @@ export function useGoogleMaps(apiKey, libraries = []) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { isLoaded };
+  return { isLoaded, error };
 }

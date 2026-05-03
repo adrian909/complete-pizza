@@ -69,16 +69,17 @@ export default function Cart({
                         <div className="font-semibold text-sm">{c.title}</div>
                         {c.customizations && Object.keys(c.customizations).length > 0 && (
                           <div className="text-xs mt-1 space-y-0.5">
-                            {Object.entries(c.customizations).map(([key, value]) => {
-                              if (!value) return null;
-                              const isRemove = key.startsWith("remove-");
-                              const label = key.replace(/^(remove|add)-/, "");
-                              return (
-                                <div key={key} className={`${dark ? "text-neutral-400" : "text-gray-600"}`}>
-                                  {isRemove ? "-" : "+"} {label}
-                                </div>
-                              );
-                            })}
+                            {Object.entries(c.customizations)
+                              .filter(([key, value]) => value)
+                              .map(([key, value]) => {
+                                const isRemove = key.startsWith("remove-");
+                                const label = key.replace(/^(remove|add)-/, "");
+                                return (
+                                  <div key={key} className={`${dark ? "text-neutral-400" : "text-gray-600"}`}>
+                                    {isRemove ? "-" : "+"} {label}
+                                  </div>
+                                );
+                              })}
                           </div>
                         )}
                       </div>

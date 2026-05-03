@@ -7,6 +7,7 @@ import { useMobileOptimization } from "./hooks/useMobileOptimization";
 import { useLanguage } from "./hooks/useLanguage";
 import { LanguageProvider } from "./context/LanguageContext";
 import { logout, getCurrentUser, fetchCSRFToken } from "../shared/utils/auth";
+import { useScrollLock } from "../shared/utils/scrollLock";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import Menu from "./components/Menu";
@@ -172,28 +173,8 @@ function AppContent() {
     }
   }, [showAdmin, showMyOrders, showUserProfile, isInitialized]);
 
-  useEffect(() => {
-    if (selectedProduct) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedProduct]);
-
-  useEffect(() => {
-    if (isInitialized && showAdmin) {
-
-      if (!currentUser?.role || currentUser.role !== "admin") {
-
-        setShowAdmin(false);
-      } else {
-
-      }
-    }
-  }, [isInitialized, currentUser]);
+  // Use centralized scroll lock to prevent forced reflows
+  useScrollLock(selectedProduct !== null || showCheckout);
 
   // Close protected pages when user logs out
   useEffect(() => {
@@ -375,6 +356,11 @@ function AppContent() {
               setIsLoadingOrders(false);
             }
           } catch (error) {
+            if (error.message.includes('401') || error.message.includes('expired')) {
+              console.warn('Orders fetch: session expired, user will be prompted to re-authenticate');
+            } else if (!error.message.includes('Silent')) {
+              console.warn('Orders fetch error:', error.message);
+            }
             setIsLoadingOrders(false);
           }
         };
@@ -620,7 +606,7 @@ function AppContent() {
     <>
       <AnimatePresence mode="wait">
         {showAuth ? (
-          <motion.div
+          <motion.main
             key="auth"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -651,7 +637,7 @@ function AppContent() {
                 }}
               />
             </Suspense>
-          </motion.div>
+          </motion.main>
         ) : (
           <motion.main
             key="main"

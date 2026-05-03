@@ -17,9 +17,19 @@ export default defineConfig({
       },
       
       output: {
-        manualChunks: {
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          framer: ['framer-motion'],
+        manualChunks: (id) => {
+          // Firebase bundle - only loaded by Admin/Auth pages
+          if (id.includes('firebase')) {
+            return 'firebase';
+          }
+          // Framer-motion - split into separate chunk to enable better tree-shaking
+          if (id.includes('framer-motion')) {
+            return 'framer';
+          }
+          // Lucide icons - commonly used but can be optimized
+          if (id.includes('lucide-react')) {
+            return 'icons';
+          }
         },
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/chunk-[name]-[hash].js',
@@ -54,5 +64,11 @@ export default defineConfig({
         }
       }
     }
+  },
+
+  // Optimize dependencies - mark heavy libraries for dynamic loading
+  optimizeDeps: {
+    exclude: ['framer-motion', 'firebase/app', 'firebase/auth', 'firebase/firestore'], // Allow these to be tree-shaken more aggressively
+    include: ['lucide-react', 'react', 'react-dom'], // Pre-bundle common libraries
   },
 })

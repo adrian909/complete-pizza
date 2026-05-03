@@ -49,6 +49,16 @@ export const getCSRFToken = async () => {
 };
 
 /**
+ * Clear all authentication data
+ */
+export const clearAuthData = () => {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  sessionStorage.removeItem(CSRF_TOKEN_KEY);
+  console.debug('Authentication data cleared');
+};
+
+/**
  * Store JWT token
  * @param {string} token - JWT token
  */
@@ -66,6 +76,31 @@ export const storeToken = (token) => {
  */
 export const getToken = () => {
   return localStorage.getItem(TOKEN_KEY);
+};
+
+/**
+ * Check if token is valid (exists and hasn't expired)
+ * @returns {Promise<boolean>}
+ */
+export const isTokenValid = async () => {
+  const token = getToken();
+  if (!token) return false;
+  
+  try {
+    // Decode JWT to check expiration
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+    
+    const decoded = JSON.parse(atob(parts[1]));
+    const expiresAt = decoded.exp * 1000; // Convert to milliseconds
+    const now = Date.now();
+    
+    // Token is valid if not expired (with 1-minute buffer)
+    return expiresAt > (now + 60000);
+  } catch (error) {
+    console.error('Token validation error:', error);
+    return false;
+  }
 };
 
 /**

@@ -4,7 +4,9 @@ import { debug } from "../../shared/utils/debug";
 import { useLanguage } from "../hooks/useLanguage";
 import { ArrowLeft, Edit2, Save, X, MapPin, Home, Truck, Navigation } from "lucide-react";
 import { useGoogleMaps } from "../hooks/useGoogleMaps";
-import GoogleMapDiv from "./GoogleMapDiv";
+
+// Only load GoogleMapDiv when actually needed
+const GoogleMapDiv = React.lazy(() => import("./GoogleMapDiv"));
 import { apiGet, apiPut } from "../api/apiClient";
 
 export default function UserProfile({ dark, onBack, currentUser, setCurrentUser }) {
@@ -35,7 +37,11 @@ export default function UserProfile({ dark, onBack, currentUser, setCurrentUser 
   const lastUpdateTimeRef = useRef(0);
   const userDraggingRef = useRef(false);
 
-  const { isLoaded } = useGoogleMaps(import.meta.env.VITE_GOOGLE_MAPS_API_KEY, ["places"]);
+  // Only load Google Maps when modal is shown
+  const { isLoaded } = useGoogleMaps(
+    showMapPicker ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : "",
+    showMapPicker ? ["places"] : []
+  );
 
   // Load full user data from Backend on mount
   useEffect(() => {
