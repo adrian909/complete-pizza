@@ -6,7 +6,9 @@ const STORAGE_KEY = "cookieConsent";
 
 export default function CookieBanner() {
   const { t } = useLanguage();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() => {
+    try { return !localStorage.getItem(STORAGE_KEY); } catch { return true; }
+  });
   const [showSettings, setShowSettings] = useState(false);
   const [prefs, setPrefs] = useState({ essential: true, functional: true, analytics: true, marketing: false });
 
@@ -18,11 +20,6 @@ export default function CookieBanner() {
   ];
 
   useEffect(() => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
-    } catch {
-      setVisible(true);
-    }
     const handler = () => setVisible(true);
     window.addEventListener("openCookieSettings", handler);
     return () => window.removeEventListener("openCookieSettings", handler);

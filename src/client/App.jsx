@@ -470,16 +470,14 @@ function AppContent() {
       body.style.cssText = `
         background-color: #111111;
         background-image: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
-        background-attachment: fixed;
       `;
     } else {
       root.classList.remove("dark");
       body.classList.remove("dark");
-      
+
       body.style.cssText = `
         background-color: #ffffff;
         background-image: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e8eef2 100%);
-        background-attachment: fixed;
       `;
     }
   }, [dark]);
@@ -696,21 +694,24 @@ function AppContent() {
               style={{background: dark ? "radial-gradient(circle, #4A90E2, transparent)" : "radial-gradient(circle, #2563EB, transparent)", mixBlendMode: dark ? "screen" : "multiply", opacity: dark ? 0.15 : 0.1, animationDelay: "2s"}}></div>
             
             <Hero dark={dark} />
-            <div id="menu">
+            <div id="menu" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 1200px' }}>
               <Menu dark={dark} filter={filter} setFilter={setFilter} addToCart={addToCart} products={products} isLoadingProducts={isLoadingProducts} setSelectedProduct={setSelectedProduct} setQuantity={setQuantity} setCustomizations={setCustomizations} />
             </div>
-            <div id="where">
+            <div id="where" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
               <Location dark={dark} locationToday={locationToday} />
             </div>
-            <div id="about">
+            <div id="about" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
               <Testimonials dark={dark} />
             </div>
-            
-            <About dark={dark} />
-
-            <OrderConfirmation dark={dark} orderPlaced={orderPlaced} />
-
-            <Footer dark={dark} />
+            <div style={{ contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}>
+              <About dark={dark} />
+            </div>
+            <div style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
+              <OrderConfirmation dark={dark} orderPlaced={orderPlaced} />
+            </div>
+            <div style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
+              <Footer dark={dark} />
+            </div>
           </motion.main>
         )}
       </AnimatePresence>

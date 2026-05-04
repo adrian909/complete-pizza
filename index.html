@@ -42,24 +42,26 @@
     <!-- Preload hero image - high priority LCP asset -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=500&fit=crop&q=75" type="image/jpeg" fetchpriority="high">
 
-    <!-- Fonts loaded async (non-blocking) — display=swap shows system font until ready -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Inter:wght@500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <!-- Fonts: display=optional prevents font-swap CLS (fonts used from cache on return visits) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=optional" rel="stylesheet">
     </noscript>
     
     <!-- Favicon emoji (zero-size, instant) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
 
-    <!-- Apply saved dark mode before first paint to avoid flash -->
+    <!-- Apply saved dark mode AND body background before first paint to avoid CLS -->
     <script>
       try {
         var t = localStorage.getItem('theme');
-        if (t === null ? true : JSON.parse(t)) {
-          document.documentElement.classList.add('dark');
-        }
+        var dark = t === null ? true : JSON.parse(t);
+        if (dark) document.documentElement.classList.add('dark');
+        var s = document.createElement('style');
+        s.textContent = dark
+          ? 'body{background-color:#111111;background-image:linear-gradient(135deg,#0f0f0f 0%,#1a1a2e 50%,#16213e 100%)}'
+          : 'body{background-color:#ffffff;background-image:linear-gradient(135deg,#ffffff 0%,#f8f9fa 50%,#e8eef2 100%)}';
+        document.head.appendChild(s);
       } catch(e) {
         document.documentElement.classList.add('dark');
       }

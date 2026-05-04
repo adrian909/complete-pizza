@@ -5,7 +5,7 @@ let _status = "idle"; // "idle" | "loading" | "ready" | "error"
 const _queue = [];
 
 function _loadScript(apiKey, libraries) {
-  if (_status !== "idle") return;
+  if (!apiKey || _status !== "idle") return;
   _status = "loading";
 
   window.__googleMapsReady = () => {
@@ -19,7 +19,7 @@ function _loadScript(apiKey, libraries) {
   const libs = libraries.length ? `&libraries=${libraries.join(",")}` : "";
   script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}${libs}&callback=__googleMapsReady`;
   script.async = true;
-  script.defer = true; // Mark as defer for better loading performance
+  script.defer = true;
   script.onerror = () => {
     _status = "error";
     _queue.length = 0;
@@ -32,6 +32,8 @@ export function useGoogleMaps(apiKey, libraries = []) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!apiKey) return; // Don't load until caller provides a real key
+
     if (_status === "ready") {
       setIsLoaded(true);
       return;
@@ -50,8 +52,9 @@ export function useGoogleMaps(apiKey, libraries = []) {
       const i = _queue.indexOf(cb);
       if (i !== -1) _queue.splice(i, 1);
     };
+  // libraries is stable (inline array in callers, but key changes are what matter)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiKey]);
 
   return { isLoaded, error };
 }
