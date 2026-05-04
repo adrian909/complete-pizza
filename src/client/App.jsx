@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Suspense, lazy, startTransition, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef, Suspense, lazy, startTransition, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, MapPin, Phone, Mail, X, LogOut, User, Settings } from "lucide-react";
 import { debug } from "../shared/utils/debug";
@@ -459,27 +459,8 @@ function AppContent() {
     document.body.setAttribute('data-admin-view', showAdmin ? 'true' : 'false');
   }, [showAdmin, showMyOrders, showUserProfile]);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const body = document.body;
-    
-    if (dark) {
-      root.classList.add("dark");
-      body.classList.add("dark");
-      
-      body.style.cssText = `
-        background-color: #111111;
-        background-image: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
-      `;
-    } else {
-      root.classList.remove("dark");
-      body.classList.remove("dark");
-
-      body.style.cssText = `
-        background-color: #ffffff;
-        background-image: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e8eef2 100%);
-      `;
-    }
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
   const addToCart = useCallback((item, customizations = {}) => {
@@ -694,24 +675,18 @@ function AppContent() {
               style={{background: dark ? "radial-gradient(circle, #4A90E2, transparent)" : "radial-gradient(circle, #2563EB, transparent)", mixBlendMode: dark ? "screen" : "multiply", opacity: dark ? 0.15 : 0.1, animationDelay: "2s"}}></div>
             
             <Hero dark={dark} />
-            <div id="menu" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 1200px' }}>
+            <div id="menu">
               <Menu dark={dark} filter={filter} setFilter={setFilter} addToCart={addToCart} products={products} isLoadingProducts={isLoadingProducts} setSelectedProduct={setSelectedProduct} setQuantity={setQuantity} setCustomizations={setCustomizations} />
             </div>
-            <div id="where" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+            <div id="where">
               <Location dark={dark} locationToday={locationToday} />
             </div>
-            <div id="about" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+            <div id="about">
               <Testimonials dark={dark} />
             </div>
-            <div style={{ contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}>
-              <About dark={dark} />
-            </div>
-            <div style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
-              <OrderConfirmation dark={dark} orderPlaced={orderPlaced} />
-            </div>
-            <div style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
-              <Footer dark={dark} />
-            </div>
+            <About dark={dark} />
+            <OrderConfirmation dark={dark} orderPlaced={orderPlaced} />
+            <Footer dark={dark} />
           </motion.main>
         )}
       </AnimatePresence>
