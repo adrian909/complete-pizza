@@ -51,7 +51,7 @@ export default function Hero({ dark }) {
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="order-2 md:order-1">
+          <div className="order-2 md:order-1 md:-mt-16">
             <motion.div
               {...titleAnimation}>
               <div className="flex items-center gap-2 mb-4">
@@ -137,21 +137,21 @@ export default function Hero({ dark }) {
           <motion.div
             {...imageAnimation}
             className="order-1 md:order-2 relative">
-            <div className="relative">
+            <div className="relative md:ml-16">
               <div className={`absolute -top-10 -right-10 w-48 h-48 bg-fastfood-red rounded-full ${isMobile ? "blur-2xl" : "blur-3xl"} opacity-30 animate-pulse`}></div>
               <div className={`absolute -bottom-10 -left-10 w-48 h-48 bg-fastfood-orange rounded-full ${isMobile ? "blur-2xl" : "blur-3xl"} opacity-30 animate-pulse`} style={{ animationDelay: "1s" }}></div>
               
               <motion.div
                 {...floatingAnimation}
-                className="relative bg-gradient-to-br from-fastfood-red/20 to-fastfood-orange/20 border-2 border-fastfood-orange/50 rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=500&fit=crop&q=60&auto=format"
-                  alt="Fancy Food Truck" 
-                  className="w-full h-96 object-cover"
+                className="relative w-96 h-96 md:w-[680px] md:h-[680px] bg-gradient-to-br from-fastfood-red/20 to-fastfood-orange/20 border-2 border-fastfood-orange/50 rounded-full overflow-hidden shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=500&fit=crop&q=60&auto=format"
+                  alt="Complete Pizza"
+                  className="w-full h-full object-cover"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  srcSet="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&q=50&auto=format 300w, https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=500&fit=crop&q=60&auto=format 500w, https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=600&fit=crop&q=65&auto=format 600w"
+                  srcSet="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop&q=50&auto=format 300w, https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=500&fit=crop&q=60&auto=format 500w, https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=600&fit=crop&q=65&auto=format 600w"
                   sizes="(max-width: 768px) 300px, 500px"
                 />
               </motion.div>

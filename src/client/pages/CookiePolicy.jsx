@@ -51,7 +51,7 @@ const CookieCard = ({ icon: Icon, color, category, canReject, description, examp
 
 const CONTENT = {
   ro: {
-    docTitle: "Politica de Cookie-uri – FancyTruck",
+    docTitle: "Politica de Cookie-uri – Complete Pizza",
     title: "Politica de Cookie-uri",
     updated: "Ultima actualizare: 4 mai 2026",
     intro: ["Această pagină explică ce sunt cookie-urile, ce tipuri folosim pe ", "fancytruck.ro", " și cum poți controla utilizarea lor, conform ", "Directivei ePrivacy 2002/58/CE", " și ", "GDPR", "."],
@@ -130,7 +130,7 @@ const CONTENT = {
     footerQ: ["Întrebări despre cookie-uri? Scrie-ne la ", "hello@fancytruck.ro", ". Autoritatea de reglementare: ", "ANSPDCP", " – "],
   },
   en: {
-    docTitle: "Cookie Policy – FancyTruck",
+    docTitle: "Cookie Policy – Complete Pizza",
     title: "Cookie Policy",
     updated: "Last updated: 4 May 2026",
     intro: ["This page explains what cookies are, which types we use on ", "fancytruck.ro", ", and how you can control their use, in accordance with the ", "ePrivacy Directive 2002/58/EC", " and ", "GDPR", "."],

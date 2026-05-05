@@ -109,7 +109,7 @@ export default function Footer({ dark }) {
                 href="https://facebook.com/fancytruck"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow FancyTruck on Facebook"
+                aria-label="Follow Complete Pizza on Facebook"
                 className="w-10 h-10 rounded-lg bg-gradient-to-br from-fastfood-red to-fastfood-orange flex items-center justify-center text-white hover:shadow-lg hover:shadow-fastfood-red/50 transition">
                 <Facebook size={18} />
               </motion.a>
@@ -118,7 +118,7 @@ export default function Footer({ dark }) {
                 href="https://instagram.com/fancytruck"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow FancyTruck on Instagram"
+                aria-label="Follow Complete Pizza on Instagram"
                 className="w-10 h-10 rounded-lg bg-gradient-to-br from-fastfood-orange to-fastfood-yellow flex items-center justify-center text-white hover:shadow-lg hover:shadow-fastfood-orange/50 transition">
                 <Instagram size={18} />
               </motion.a>
@@ -127,7 +127,7 @@ export default function Footer({ dark }) {
                 href="https://tiktok.com/@fancytruck"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow FancyTruck on TikTok"
+                aria-label="Follow Complete Pizza on TikTok"
                 className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white hover:shadow-lg hover:shadow-gray-800/50 transition">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.7a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4c.34 0 .67.04.99.1V9.4a5.9 5.9 0 0 0-.99-.08 5.9 5.9 0 0 0-5.9 5.9 5.9 5.9 0 0 0 5.9 5.9 5.9 5.9 0 0 0 5.9-5.9v-2.5a7.66 7.66 0 0 0 4.77 1.6v-3.68a4.83 4.83 0 0 1-.99-.1z"/>

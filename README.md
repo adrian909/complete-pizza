@@ -1,4 +1,4 @@
-# 🍔 Fancy Food Truck - Frontend
+# 🍔 Complete Pizza - Frontend
 
 O aplicație modernă de comandă online pentru food truck-uri, construită cu React, Vite și Tailwind CSS.
 
@@ -35,8 +35,8 @@ O aplicație modernă de comandă online pentru food truck-uri, construită cu R
 
 1. **Clonează repository-ul**
 ```bash
-git clone https://github.com/adrian909/fancy-food-truck-FE.git
-cd fancy-food-truck-FE
+git clone https://github.com/adrian909/complete-pizza.git
+cd complete-pizza
 ```
 
 2. **Instalează dependențele**
@@ -73,7 +73,7 @@ Fișierele optimizate vor fi generate în folderul `dist/`
 ## 🎯 Structura proiectului
 
 ```
-fancy-food-truck/
+complete-pizza/
 ├── src/
 │   ├── client/
 │   │   ├── components/     # Componente React

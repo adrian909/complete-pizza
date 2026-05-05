@@ -26,13 +26,13 @@ const Mix = ({ p }) => p.map((part, i) => i % 2 === 1 ? <B key={i}>{part}</B> : 
 
 const CONTENT = {
   ro: {
-    docTitle: "Politica de Confidențialitate – FancyTruck",
+    docTitle: "Politica de Confidențialitate – Complete Pizza",
     title: "Politica de Confidențialitate",
     updated: "Ultima actualizare: 4 mai 2026",
-    intro: ["FancyTruck", " respectă confidențialitatea datelor tale. Această politică explică ce date colectăm, de ce, cum le protejăm și ce drepturi ai conform ", "Regulamentului (UE) 2016/679 (GDPR)", " și legislației române aplicabile."],
+    intro: ["Complete Pizza", " respectă confidențialitatea datelor tale. Această politică explică ce date colectăm, de ce, cum le protejăm și ce drepturi ai conform ", "Regulamentului (UE) 2016/679 (GDPR)", " și legislației române aplicabile."],
     s1title: "1. Operatorul de date",
     s1fields: [
-      ["Denumire:", " FancyTruck S.R.L. (sau persoana fizică autorizată)"],
+      ["Denumire:", " Complete Pizza S.R.L. (sau persoana fizică autorizată)"],
       ["Sediu:", " Sebeș, județul Alba, România"],
       ["Email:", " hello@fancytruck.ro"],
       ["Telefon:", " +40 (123) 456-7890"],
@@ -108,13 +108,13 @@ const CONTENT = {
     contactTitle: "Contact privind datele personale",
   },
   en: {
-    docTitle: "Privacy Policy – FancyTruck",
+    docTitle: "Privacy Policy – Complete Pizza",
     title: "Privacy Policy",
     updated: "Last updated: 4 May 2026",
-    intro: ["FancyTruck", " respects the privacy of your data. This policy explains what data we collect, why, how we protect it, and what rights you have under the ", "EU Regulation 2016/679 (GDPR)", " and applicable Romanian legislation."],
+    intro: ["Complete Pizza", " respects the privacy of your data. This policy explains what data we collect, why, how we protect it, and what rights you have under the ", "EU Regulation 2016/679 (GDPR)", " and applicable Romanian legislation."],
     s1title: "1. Data Controller",
     s1fields: [
-      ["Name:", " FancyTruck S.R.L. (or sole trader)"],
+      ["Name:", " Complete Pizza S.R.L. (or sole trader)"],
       ["Registered address:", " Sebeș, Alba County, Romania"],
       ["Email:", " hello@fancytruck.ro"],
       ["Phone:", " +40 (123) 456-7890"],

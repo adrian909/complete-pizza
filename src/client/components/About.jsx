@@ -116,7 +116,7 @@ export default function About({ dark }) {
             className="relative h-64 rounded-xl overflow-hidden bg-gradient-to-br from-fastfood-red/20 to-fastfood-orange/20">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-6xl mb-2">🍔</div>
+                <div className="text-6xl mb-2">🍕</div>
                 <p className={`font-bold ${dark ? "text-neutral-200" : "text-gray-800"}`}>
                   {t("passionQuality")}
                 </p>

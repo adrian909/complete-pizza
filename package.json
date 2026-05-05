@@ -1,5 +1,5 @@
 {
-  "name": "fancy-food-truck",
+  "name": "complete-pizza",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,8 +14,7 @@
     "@react-google-maps/api": "^2.20.8",
     "@vitejs/plugin-react": "^5.1.0",
     "autoprefixer": "^10.4.22",
-    "firebase": "^12.6.0",
-    "framer-motion": "^12.23.24",
+"framer-motion": "^12.23.24",
     "lucide-react": "^0.553.0",
     "postcss": "^8.5.6",
     "react": "^19.2.0",

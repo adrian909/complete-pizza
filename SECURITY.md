@@ -1,4 +1,4 @@
-# 🔒 Ghid de Securitate - Fancy Food Truck
+# 🔒 Ghid de Securitate - Complete Pizza
 
 ## Implementări de Securitate
 

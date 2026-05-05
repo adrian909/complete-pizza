@@ -11,7 +11,7 @@ export const translations = {
     
     // Menu section
     menuTitle: "Meniu",
-    menuDescription: "Exploreaza rețetele noastre speciale",
+    menuDescription: "Explorează rețetele noastre de pizza artizanală",
     addToCart: "Adauga in cos",
     quantity: "Cantitate",
     price: "Pret",
@@ -86,7 +86,7 @@ export const translations = {
     deliveriesCompleted: "Livrări Realizate",
     awardsReceived: "Premii Primite",
     averageRating: "Rating Mediu",
-    premiumQuality: "🍔 Calitate Premium",
+    premiumQuality: "🍕 Calitate Premium",
     qualityDescription: "Ingrediente proaspete și de cea mai bună calitate, selectate cu grijă pentru fiecare meniu.",
     speed: "⚡ Rapiditate",
     speedDescription: "Comenzi pregătite rapid fără a compromite calitatea. Livrări rapide și fiabile.",
@@ -96,18 +96,18 @@ export const translations = {
     sustainabilityDescription: "Ambalaje eco-friendly și parteneri locali pentru a proteja mediul.",
     ourValues: "Valorile Noastre",
     beginning: "🚚 Începutul",
-    beginningStory: "FancyTruck a fost fondat cu o singură misiune: să aducem fast-food de calitate premium direct la ușa ta. Cu ani de experiență în industrie, am decis să luăm drumul independent și să creăm ceva special.",
+    beginningStory: "Complete Pizza a fost fondată cu o singură misiune: să aducem pizza artizanală de calitate premium direct la ușa ta. Cu ani de experiență în industrie, am decis să luăm drumul independent și să creăm ceva special.",
     growthStory: "De atunci, am crescut de la o singură locație la cea mai iubită mâncare pe roți din oraș. Succesul nostru se datorează devotării noastre la calitate și satisfacția clienților.",
     passionQuality: "Pasiune & Calitate",
-    ctaText: "Deschide meniu și comandă acum - fast-food de calitate așteptă!",
-    fullMenu: "🍔 Meniu Complet",
+    ctaText: "Deschide meniul și descoperă acum - pizza artizanală de calitate te aşteaptă!",
+    fullMenu: "🍕 Meniu Complet",
     
     // Testimonials
     testimonialsTitle: "Ce spun clientii nostri",
     testimonials: "Marturii",
     
     // Footer
-    footerTitle: "Fancy Food Truck",
+    footerTitle: "Complete Pizza",
     footerDescription: "Mancare delicioasa, direct din inima noastra catre al tau",
     followUs: "Urmareste-ne",
     footerCTA: "Gata de Mâncare Delicioasă?",
@@ -121,7 +121,7 @@ export const translations = {
     footerCookies: "Politică cookie-uri",
     footerDeliveryPolicy: "Politică de livrare",
     footerCookieSettings: "Setări cookie-uri",
-    "©": "© 2026 Fancy Food Truck. Toate drepturile rezervate.",
+    "©": "© 2026 Complete Pizza. Toate drepturile rezervate.",
 
     // Cookie Banner
     cookieBannerTitle: "Îți respectăm confidențialitatea",
@@ -420,7 +420,7 @@ export const translations = {
     
     // Menu section
     menuTitle: "Menu",
-    menuDescription: "Explore our special recipes",
+    menuDescription: "Explore our artisan pizza recipes",
     addToCart: "Add to cart",
     quantity: "Quantity",
     price: "Price",
@@ -495,7 +495,7 @@ export const translations = {
     deliveriesCompleted: "Deliveries Completed",
     awardsReceived: "Awards Received",
     averageRating: "Average Rating",
-    premiumQuality: "🍔 Premium Quality",
+    premiumQuality: "🍕 Premium Quality",
     qualityDescription: "Fresh ingredients and top quality, carefully selected for each menu.",
     speed: "⚡ Speed",
     speedDescription: "Orders prepared quickly without compromising quality. Fast and reliable deliveries.",
@@ -505,18 +505,18 @@ export const translations = {
     sustainabilityDescription: "Eco-friendly packaging and local partners to protect the environment.",
     ourValues: "Our Values",
     beginning: "🚚 The Beginning",
-    beginningStory: "FancyTruck was founded with a single mission: to bring premium quality fast-food directly to your door. With years of experience in the industry, we decided to take the independent path and create something special.",
+    beginningStory: "Complete Pizza was founded with a single mission: to bring premium artisan pizza directly to your door. With years of experience in the industry, we decided to take the independent path and create something special.",
     growthStory: "Since then, we've grown from a single location to the most beloved food truck in the city. Our success is due to our commitment to quality and customer satisfaction.",
     passionQuality: "Passion & Quality",
-    ctaText: "Open the menu and order now - quality fast-food is waiting!",
-    fullMenu: "🍔 Full Menu",
+    ctaText: "Open the menu and discover now - quality artisan pizza is waiting!",
+    fullMenu: "🍕 Full Menu",
     
     // Testimonials
     testimonialsTitle: "What our customers say",
     testimonials: "Testimonials",
     
     // Footer
-    footerTitle: "Fancy Food Truck",
+    footerTitle: "Complete Pizza",
     footerDescription: "Delicious food, straight from our heart to yours",
     followUs: "Follow us",
     footerCTA: "Ready for Delicious Food?",
@@ -530,7 +530,7 @@ export const translations = {
     footerCookies: "Cookie policy",
     footerDeliveryPolicy: "Delivery policy",
     footerCookieSettings: "Cookie settings",
-    "©": "© 2026 Fancy Food Truck. All rights reserved.",
+    "©": "© 2026 Complete Pizza. All rights reserved.",
 
     // Cookie Banner
     cookieBannerTitle: "We respect your privacy",

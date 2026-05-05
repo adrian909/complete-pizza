@@ -4,54 +4,52 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FancyTruck - Street Food Elevat</title>
-    
+    <title>Complete Pizza - Pizza Artizanală</title>
+
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://embed.tawk.to https://*.tawk.to; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.googleapis.com https://*.tawk.to; font-src 'self' https://fonts.gstatic.com https://embed.tawk.to https://*.tawk.to data:; img-src 'self' data: https: blob: https://*.googleapis.com https://*.gstatic.com; connect-src 'self' http://localhost:5000 https://backend.trifadrian.ro https://maps.googleapis.com https://*.googleapis.com https://firebasestorage.googleapis.com https://firestore.googleapis.com https://embed.tawk.to https://va.tawk.to https://*.tawk.to wss://*.tawk.to; frame-src 'self' https://maps.google.com https://www.google.com https://embed.tawk.to; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://embed.tawk.to https://*.tawk.to; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.googleapis.com https://*.tawk.to; font-src 'self' https://fonts.gstatic.com https://embed.tawk.to https://*.tawk.to data:; img-src 'self' data: https: blob: https://*.googleapis.com https://*.gstatic.com; connect-src 'self' https://maps.googleapis.com https://*.googleapis.com https://embed.tawk.to https://va.tawk.to https://*.tawk.to wss://*.tawk.to; frame-src 'self' https://maps.google.com https://www.google.com https://embed.tawk.to; worker-src 'self' blob:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    
+
     <!-- SEO Meta Descriptions for Search Results -->
-    <meta name="description" content="FancyTruck - Premium street food delivers fresh, gourmet sandwiches and authentic meals. Fast delivery, quality ingredients, elevating street food experience. Order online now.">
+    <meta name="description" content="Complete Pizza - Pizza artizanală cu ingrediente proaspete și rețete tradiționale italiene. Comandă online și bucură-te de savoarea autentică.">
     <meta name="theme-color" content="#FF6B35">
-    <meta name="keywords" content="street food, food truck, delivery, sandwiches, gourmet, fast food, romania">
-    
+    <meta name="keywords" content="pizza, pizza artizanala, pizza italiana, livrare pizza, pizzerie, complete pizza, romania">
+
     <!-- Open Graph for Social Sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="FancyTruck - Street Food Elevat">
-    <meta property="og:description" content="Premium street food with fresh ingredients and fast delivery. Experience gourmet sandwiches and authentic meals.">
-    <meta property="og:url" content="https://fancytruck.ro">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&h=630&fit=crop&q=80">
+    <meta property="og:title" content="Complete Pizza - Pizza Artizanală">
+    <meta property="og:description" content="Pizza artizanală cu ingrediente proaspete și rețete tradiționale italiene. Savoarea autentică la ușa ta.">
+    <meta property="og:url" content="https://completepizza.ro">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=630&fit=crop&q=80">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FancyTruck - Premium street food sandwich">
-    
+    <meta property="og:image:alt" content="Complete Pizza - Pizza artizanală">
+
     <!-- Twitter Card for Social Sharing -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FancyTruck - Street Food Elevat">
-    <meta name="twitter:description" content="Premium street food with fresh ingredients. Order now for fast delivery.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&h=630&fit=crop&q=80">
-    
-    <!-- Parallelize connections to external origins (max 4 per Lighthouse guidance) -->
+    <meta name="twitter:title" content="Complete Pizza - Pizza Artizanală">
+    <meta name="twitter:description" content="Pizza artizanală cu ingrediente proaspete. Comandă acum pentru livrare rapidă.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=630&fit=crop&q=80">
+
+    <!-- Parallelize connections to external origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://backend.trifadrian.ro">
-    <link rel="dns-prefetch" href="https://firebase.googleapis.com">
 
     <!-- Preload hero image - high priority LCP asset -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=500&fit=crop&q=75" type="image/jpeg" fetchpriority="high">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=500&fit=crop&q=75" type="image/jpeg" fetchpriority="high">
 
-    <!-- Fonts: display=optional prevents font-swap CLS (fonts used from cache on return visits) -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=optional" rel="stylesheet">
     </noscript>
-    
-    <!-- Favicon emoji (zero-size, instant) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
 
-    <!-- Apply saved dark mode AND body background before first paint to avoid CLS -->
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>">
+
+    <!-- Apply saved dark mode before first paint -->
     <script>
       try {
         var t = localStorage.getItem('theme');

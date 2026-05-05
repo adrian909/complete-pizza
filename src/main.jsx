@@ -23,7 +23,7 @@ function LegalNav({ dark }) {
       dark ? "bg-gray-950/95 border-gray-800 backdrop-blur-sm" : "bg-white/95 border-gray-200 backdrop-blur-sm"
     }`}>
       <a href="/" className="text-sm font-bold text-fastfood-orange hover:text-orange-500 transition">
-        ← FancyTruck
+        ← Complete Pizza
       </a>
     </div>
   );
