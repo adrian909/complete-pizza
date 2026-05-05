@@ -6,7 +6,17 @@
       "Bash(node --input-type=module -e ' *)",
       "Bash(python -c ' *)",
       "Bash(node --input-type=module -e \"import { translations } from './src/client/constants/translations.js'; console.log\\('ro keys:', Object.keys\\(translations.ro\\).length, '| en keys:', Object.keys\\(translations.en\\).length, '| Sample loginButton ro:', translations.ro.loginButton, '| en:', translations.en.loginButton\\);\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(grep -E \"\\\\.jsx$\")",
+      "Bash(rm \"d:/complete-pizza/src/client/api/apiClient.js\" \"d:/complete-pizza/src/client/pages/Admin.jsx\" \"d:/complete-pizza/src/client/pages/Auth.jsx\" \"d:/complete-pizza/src/client/components/Cart.jsx\" \"d:/complete-pizza/src/client/components/Checkout.jsx\" \"d:/complete-pizza/src/client/components/MyOrders.jsx\" \"d:/complete-pizza/src/client/components/OrderConfirmation.jsx\" \"d:/complete-pizza/src/client/components/OrderStatus.jsx\" \"d:/complete-pizza/src/client/components/UserProfile.jsx\" \"d:/complete-pizza/src/shared/utils/auth.js\" \"d:/complete-pizza/src/shared/utils/corsHandler.js\" \"d:/complete-pizza/ProductsController.cs\" && echo \"Done\")",
+      "Bash(ls src/client/api/)",
+      "Bash(ls src/client/pages/Admin.jsx)",
+      "Bash(ls src/client/pages/Auth.jsx)",
+      "Bash(ls src/client/components/Cart.jsx)",
+      "Bash(ls src/client/components/Checkout.jsx)"
+    ],
+    "additionalDirectories": [
+      "d:\\complete-pizza\\src\\client\\api"
     ]
   }
 }

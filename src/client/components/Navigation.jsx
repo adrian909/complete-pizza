@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Moon, Sun, Pizza } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { smoothScrollTo } from "../../shared/utils/smoothScroll";
 import { LOGO } from "../constants/ui";
 import LanguageSelector from "./LanguageSelector";
@@ -23,8 +23,8 @@ export default function Navigation({ dark, setDark }) {
         <div className="flex items-center gap-4 sm:gap-8">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-fastfood-red to-fastfood-orange flex items-center justify-center shadow-lg shadow-fastfood-red/50 cursor-pointer">
-            <Pizza size={24} className="text-white" />
+            className="h-12 w-auto rounded-lg overflow-hidden shadow-lg shadow-fastfood-red/50 cursor-pointer">
+            <img src="/logo.png" alt="Complete Pizza" className="w-full h-full object-cover" />
           </motion.div>
 
           {LOGO}

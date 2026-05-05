@@ -7,14 +7,10 @@ import { LanguageProvider } from './client/context/LanguageContext.jsx'
 
 const PrivacyPolicy = lazy(() => import('./client/pages/PrivacyPolicy.jsx'));
 const CookiePolicy = lazy(() => import('./client/pages/CookiePolicy.jsx'));
-const TermsAndConditions = lazy(() => import('./client/pages/TermsAndConditions.jsx'));
-const DeliveryPolicy = lazy(() => import('./client/pages/DeliveryPolicy.jsx'));
 
 const LEGAL_ROUTES = {
   '/privacy': PrivacyPolicy,
   '/cookie-policy': CookiePolicy,
-  '/terms': TermsAndConditions,
-  '/delivery-policy': DeliveryPolicy,
 };
 
 function LegalNav({ dark }) {

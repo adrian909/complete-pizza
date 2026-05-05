@@ -1,15 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { MapPin, ExternalLink } from "lucide-react";
-import { smoothScrollTo } from "../../shared/utils/smoothScroll";
 import { useLanguage } from "../hooks/useLanguage";
 
-export default function Location({ dark, locationToday }) {
+export default function Location({ dark, location }) {
   const { t } = useLanguage();
-  // Support both string (legacy) and object format
-  const locName = typeof locationToday === "string" ? locationToday : locationToday?.name || "Sebes";
-  const mapLink = typeof locationToday === "object" ? locationToday?.mapLink : "";
-  const googleMapsLink = typeof locationToday === "object" ? locationToday?.googleMapsLink : "";
+  const locName = location?.name || "Sebes";
+  const mapLink = location?.mapLink || "";
+  const googleMapsLink = location?.googleMapsLink || "";
 
   return (
     <motion.section
@@ -30,19 +28,18 @@ export default function Location({ dark, locationToday }) {
             className={`mt-4 p-4 rounded-xl border ${
               dark ? "bg-neutral-900/30 border-neutral-800" : "bg-slate-100 border-slate-300"
             }`}>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3">
               <div>
                 <div className={`text-xs ${dark ? "text-neutral-400" : "text-slate-500"}`}>
                   {t("address")}
                 </div>
                 <div className="font-semibold">{locName}</div>
               </div>
-
               <div>
                 <div className={`text-xs ${dark ? "text-neutral-400" : "text-slate-500"}`}>
                   {t("hours")}
                 </div>
-                <div className="font-semibold">12:00 — 22:00</div>
+                <div className="font-semibold">10:00 — 22:00</div>
               </div>
             </div>
 
@@ -61,13 +58,13 @@ export default function Location({ dark, locationToday }) {
                   <ExternalLink size={16} />
                 </motion.a>
               )}
-              <motion.button
-                onClick={() => smoothScrollTo("#menu")}
+              <motion.a
+                href="tel:+40744299399"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center px-4 py-2 rounded-xl bg-amber-400 text-black hover:bg-amber-500 transition">
                 {t("orderNow")}
-              </motion.button>
+              </motion.a>
             </div>
           </div>
         </div>
@@ -82,7 +79,7 @@ export default function Location({ dark, locationToday }) {
               allowFullScreen=""
               referrerPolicy="no-referrer-when-downgrade"
               src={mapLink}
-              title="Locația Food Truck"
+              title="Locația Complete Pizza"
             ></iframe>
           ) : (
             <div className="w-full h-64 flex items-center justify-center bg-gray-700/20">

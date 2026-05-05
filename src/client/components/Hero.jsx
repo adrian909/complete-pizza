@@ -63,7 +63,7 @@ export default function Hero({ dark }) {
                 <span className={dark ? "text-white" : "text-gray-900"}>{t("heroTitle")}</span>
                 <br />
                 <span className="bg-gradient-to-r from-fastfood-red via-fastfood-orange to-fastfood-yellow bg-clip-text text-transparent">
-                  Elevat
+                  Pizza
                 </span>
               </h1>
               
@@ -79,7 +79,7 @@ export default function Hero({ dark }) {
                       ? "bg-gradient-to-br from-fastfood-red/20 to-fastfood-orange/10 border-fastfood-red/30"
                       : "bg-gradient-to-br from-fastfood-red/10 to-fastfood-orange/5 border-fastfood-red/20"
                   }`}>
-                  <div className="text-2xl font-black text-fastfood-red">12k+</div>
+                  <div className="text-2xl font-black text-fastfood-red">1000+</div>
                   <div className={`text-xs ${dark ? "text-neutral-400" : "text-gray-600"}`}>Comenzi</div>
                 </motion.div>
                 <motion.div
@@ -89,7 +89,7 @@ export default function Hero({ dark }) {
                       ? "bg-gradient-to-br from-fastfood-yellow/20 to-fastfood-orange/10 border-fastfood-yellow/30"
                       : "bg-gradient-to-br from-fastfood-yellow/10 to-fastfood-orange/5 border-fastfood-yellow/20"
                   }`}>
-                  <div className="text-2xl font-black text-fastfood-yellow">4.9★</div>
+                  <div className="text-2xl font-black text-fastfood-yellow">3.9★</div>
                   <div className={`text-xs ${dark ? "text-neutral-400" : "text-gray-600"}`}>Rating</div>
                 </motion.div>
                 <motion.div
@@ -106,11 +106,7 @@ export default function Hero({ dark }) {
               
               <div className="flex flex-col sm:flex-row gap-4">
                   <motion.a
-                    href="#menu"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      smoothScrollTo("#menu");
-                    }}
+                    href="tel:+40744299399"
                     whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 45, 85, 0.6)" }}
                     whileTap={{ scale: 0.95 }}
                     className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-fastfood-red/50 transition-all duration-300 cursor-pointer border-none">

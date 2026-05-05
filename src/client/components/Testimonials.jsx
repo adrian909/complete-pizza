@@ -35,10 +35,10 @@ export default function Testimonials({ dark }) {
       <h3 className="text-2xl font-bold">{t("testimonialsTitle")}</h3>
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { name: "Alex", text: "Cea mai bună burger din oraș!", stars: 5 },
-          { name: "Maria", text: "Livrarea a fost rapidă și perfect ambalată.", stars: 5 },
-          { name: "Ionuț", text: "Prezentare premium, gust autentic.", stars: 4 },
-        ].map((t, i) => (
+          { name: "Trimitoare S.", text: "Foarte buna livrarea! Cel putin noua ne-au adus pa marginea padurii si s-au scuzat ca nu au putut veni chiar pana unde eram (vorbesc de intravilanul orasului). Livratorul s-a prezentat a fi chiar patronul! Nota 10 pt bun simt", stars: 5 },
+          { name: "blue", text: "Pizza foarte gustoasă și plină de ingrediente,pe lângă asta primești și sosuri sau suc(Fanta,Coca-Cola) 10/10", stars: 5 },
+          { name: "Antonia S.", text: "A fost o pizza excelenta!!! Recomandam !!", stars: 5 },
+        ].map((item, i) => (
           <motion.div
             key={i}
             {...itemAnimation(i)}
@@ -46,8 +46,13 @@ export default function Testimonials({ dark }) {
             className={`p-6 rounded-2xl border ${
               dark ? "bg-neutral-900/30 border-neutral-800" : "bg-slate-100 border-slate-300"
             }`}>
-            <div className="font-semibold">{t.name}</div>
-            <div className={`mt-2 ${dark ? "text-neutral-400" : "text-slate-600"}`}>{t.text}</div>
+            <div className="flex gap-0.5 mb-2">
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <span key={idx} className={idx < item.stars ? "text-fastfood-yellow" : "text-neutral-600"}>★</span>
+              ))}
+            </div>
+            <div className="font-semibold">{item.name}</div>
+            <div className={`mt-2 ${dark ? "text-neutral-400" : "text-slate-600"}`}>{item.text}</div>
           </motion.div>
         ))}
       </div>

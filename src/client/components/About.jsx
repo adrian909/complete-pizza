@@ -1,16 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { smoothScrollTo } from "../../shared/utils/smoothScroll";
-import { Star, Users, Truck, Award } from "lucide-react";
+import { Star, Users, Truck, MapPin } from "lucide-react";
 import { useLanguage } from "../hooks/useLanguage";
 
 export default function About({ dark }) {
   const { t } = useLanguage();
   const stats = [
-    { icon: Users, label: t("happyClients"), value: "5000+", color: "text-fastfood-blue" },
-    { icon: Truck, label: t("deliveriesCompleted"), value: "10000+", color: "text-fastfood-orange" },
-    { icon: Award, label: t("awardsReceived"), value: "15", color: "text-fastfood-yellow" },
-    { icon: Star, label: t("averageRating"), value: "4.8★", color: "text-fastfood-red" },
+    { icon: Users, label: t("happyClients"), value: "1000+", color: "text-fastfood-blue" },
+    { icon: Truck, label: t("deliveriesCompleted"), value: "1000+", color: "text-fastfood-orange" },
+    { icon: MapPin, label: t("locations"), value: "1", color: "text-fastfood-yellow" },
+    { icon: Star, label: t("averageRating"), value: "3.9★", color: "text-fastfood-red" },
   ];
 
   const values = [
@@ -89,7 +89,7 @@ export default function About({ dark }) {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: false, amount: 0.1 }}
-        className={`rounded-2xl border p-8 mb-16 ${
+        className={`rounded-2xl border p-8 mb-28 ${
           dark
             ? "bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 border-fastfood-orange/30"
             : "bg-gradient-to-br from-white/50 to-gray-50/50 border-gray-300"
@@ -113,15 +113,12 @@ export default function About({ dark }) {
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: false }}
-            className="relative h-64 rounded-xl overflow-hidden bg-gradient-to-br from-fastfood-red/20 to-fastfood-orange/20">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl mb-2">🍕</div>
-                <p className={`font-bold ${dark ? "text-neutral-200" : "text-gray-800"}`}>
-                  {t("passionQuality")}
-                </p>
-              </div>
-            </div>
+            className="relative h-64 rounded-xl overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop&q=75"
+              alt="Complete Pizza"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </motion.div>
@@ -132,7 +129,7 @@ export default function About({ dark }) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.3 }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-28">
         {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
@@ -154,7 +151,7 @@ export default function About({ dark }) {
       </motion.div>
 
       {/* Values */}
-      <div className="mb-16">
+      <div className="mb-10">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -186,28 +183,6 @@ export default function About({ dark }) {
         </motion.div>
       </div>
 
-      {/* CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: false, amount: 0.3 }}
-        className="text-center">
-        <p className={`text-lg mb-6 ${dark ? "text-neutral-300" : "text-gray-700"}`}>
-          {t("ctaText")}
-        </p>
-        <motion.a
-          href="#menu"
-          onClick={(e) => {
-            e.preventDefault();
-            smoothScrollTo("#menu");
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white font-bold hover:shadow-lg hover:shadow-fastfood-red/50 transition-all duration-300 text-lg">
-          {t("fullMenu")}
-        </motion.a>
-      </motion.div>
     </motion.section>
   );
 }

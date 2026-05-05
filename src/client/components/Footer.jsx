@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Facebook, Instagram, ArrowRight } from "lucide-react";
-import { smoothScrollTo } from "../../shared/utils/smoothScroll";
 import { LOGO } from "../constants/ui";
 import { useLanguage } from "../hooks/useLanguage";
 
@@ -28,11 +27,7 @@ export default function Footer({ dark }) {
             {t("footerCTA")}
           </h3>
           <motion.a
-            href="#menu"
-            onClick={(e) => {
-              e.preventDefault();
-              smoothScrollTo("#menu");
-            }}
+            href="tel:+40744299399"
             whileHover={{ scale: 1.05, gap: "1rem" }}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white px-8 py-3 rounded-full font-bold hover:shadow-lg hover:shadow-fastfood-red/50 transition-all duration-300 cursor-pointer border-none">
             {t("orderNow")}
@@ -48,12 +43,12 @@ export default function Footer({ dark }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0 }}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-fastfood-red to-fastfood-orange flex items-center justify-center">
-                <span className="text-white font-black">🔥</span>
+              <div className="h-10 w-36 rounded-lg overflow-hidden">
+                <img src="/logo.png" alt="Complete Pizza" className="w-full h-full object-cover" />
               </div>
               <div>
                 {LOGO}
-                <p className={`text-xs ${dark ? "text-neutral-400" : "text-gray-600"}`}>Street Food, Elevated</p>
+                <p className={`text-xs ${dark ? "text-neutral-400" : "text-gray-600"}`}>{t("footerTagline")}</p>
               </div>
             </div>
           </motion.div>
@@ -68,17 +63,17 @@ export default function Footer({ dark }) {
               {t("phone")}
             </h4>
             <div className="space-y-3">
-              <div className={`flex items-center gap-2 hover:text-fastfood-orange transition ${dark ? "text-neutral-400" : "text-gray-600"}`}>
+              <a
+                href="https://www.google.com/maps/place/Complete+Pizza/@46.0754934,23.5606546,17z/data=!3m1!4b1!4m6!3m5!1s0x474ea9579ef98093:0x4c46ac0bc10dffdd!8m2!3d46.0754897!4d23.5632349!16s%2Fg%2F11gh5phh4_?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center gap-2 hover:text-fastfood-orange transition ${dark ? "text-neutral-400" : "text-gray-600"}`}>
                 <MapPin size={16} className="text-fastfood-orange" />
                 <span className="text-sm">{t("footerLocation")}</span>
-              </div>
+              </a>
               <div className={`flex items-center gap-2 hover:text-fastfood-orange transition ${dark ? "text-neutral-400" : "text-gray-600"}`}>
                 <Phone size={16} className="text-fastfood-orange" />
-                <a href="tel:+40123456789" className="text-sm">+40 (123) 456-7890</a>
-              </div>
-              <div className={`flex items-center gap-2 hover:text-fastfood-orange transition ${dark ? "text-neutral-400" : "text-gray-600"}`}>
-                <Mail size={16} className="text-fastfood-orange" />
-                <a href="mailto:hello@fancytruck.ro" className="text-sm">hello@fancytruck.ro</a>
+                <a href="tel:+40123456789" className="text-sm">+40 (744) 299 399</a>
               </div>
             </div>
           </motion.div>
@@ -91,9 +86,7 @@ export default function Footer({ dark }) {
             <h4 className={`font-black mb-4 ${dark ? "text-white" : "text-gray-900"}`}>{t("hours")}</h4>
             <div className={`space-y-2 text-sm ${dark ? "text-neutral-400" : "text-gray-600"}`}>
               <p>{t("footerHoursLabel")}</p>
-              <p>{t("footerHoursSat")}</p>
               <p>{t("footerHoursSun")}</p>
-              <p className="text-fastfood-orange font-semibold pt-2">{t("footerDelivery")}</p>
             </div>
           </motion.div>
 
@@ -106,32 +99,12 @@ export default function Footer({ dark }) {
             <div className="flex gap-4">
               <motion.a
                 whileHover={{ scale: 1.2, rotate: 5 }}
-                href="https://facebook.com/fancytruck"
+                href="https://www.facebook.com/completepizza"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Complete Pizza on Facebook"
                 className="w-10 h-10 rounded-lg bg-gradient-to-br from-fastfood-red to-fastfood-orange flex items-center justify-center text-white hover:shadow-lg hover:shadow-fastfood-red/50 transition">
                 <Facebook size={18} />
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                href="https://instagram.com/fancytruck"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Follow Complete Pizza on Instagram"
-                className="w-10 h-10 rounded-lg bg-gradient-to-br from-fastfood-orange to-fastfood-yellow flex items-center justify-center text-white hover:shadow-lg hover:shadow-fastfood-orange/50 transition">
-                <Instagram size={18} />
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                href="https://tiktok.com/@fancytruck"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Follow Complete Pizza on TikTok"
-                className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-white hover:shadow-lg hover:shadow-gray-800/50 transition">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.7a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4c.34 0 .67.04.99.1V9.4a5.9 5.9 0 0 0-.99-.08 5.9 5.9 0 0 0-5.9 5.9 5.9 5.9 0 0 0 5.9 5.9 5.9 5.9 0 0 0 5.9-5.9v-2.5a7.66 7.66 0 0 0 4.77 1.6v-3.68a4.83 4.83 0 0 1-.99-.1z"/>
-                </svg>
               </motion.a>
             </div>
           </motion.div>
@@ -152,10 +125,8 @@ export default function Footer({ dark }) {
             </a>
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-            <a href="/terms" className="hover:text-fastfood-orange transition">{t("footerTerms")}</a>
             <a href="/privacy" className="hover:text-fastfood-orange transition">{t("footerPrivacy")}</a>
             <a href="/cookie-policy" className="hover:text-fastfood-orange transition">{t("footerCookies")}</a>
-            <a href="/delivery-policy" className="hover:text-fastfood-orange transition">{t("footerDeliveryPolicy")}</a>
             <button
               onClick={() => window.dispatchEvent(new Event("openCookieSettings"))}
               className="hover:text-fastfood-orange transition cursor-pointer bg-transparent border-none p-0 font-[inherit] text-[inherit]"
