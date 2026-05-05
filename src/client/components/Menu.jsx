@@ -1,32 +1,130 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { motion } from "framer-motion";
-import { Pizza, Flame } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Pizza, Flame, ChevronDown } from "lucide-react";
 import { useMobileOptimization } from "../hooks/useMobileOptimization";
 import { useLanguage } from "../hooks/useLanguage";
 
 const STATIC_PRODUCTS = [
-  { id: "1", title: "Margherita", price: 32.00, img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop&q=75", desc: "Mozzarella, sos roșii, busuioc proaspăt", tags: ["pizza"] },
-  { id: "2", title: "Pepperoni", price: 38.00, img: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&h=300&fit=crop&q=75", desc: "Pepperoni, mozzarella, sos roșii", tags: ["pizza", "popular"] },
-  { id: "3", title: "Quattro Stagioni", price: 42.00, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&q=75", desc: "Șuncă, ciuperci, ardei gras, măsline", tags: ["pizza"] },
-  { id: "4", title: "Prosciutto e Funghi", price: 44.00, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop&q=75", desc: "Prosciutto, ciuperci proaspete, mozzarella", tags: ["pizza"] },
-  { id: "5", title: "Diavola", price: 40.00, img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400&h=300&fit=crop&q=75", desc: "Salam picant, ardei iute, mozzarella", tags: ["pizza", "piccante"] },
-  { id: "6", title: "Quattro Formaggi", price: 46.00, img: "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?w=400&h=300&fit=crop&q=75", desc: "Mozzarella, gorgonzola, parmezan, ricotta", tags: ["pizza"] },
-  { id: "7", title: "Calzone", price: 38.00, img: "https://images.unsplash.com/photo-1604917877934-07d8d248d396?w=400&h=300&fit=crop&q=75", desc: "Pizza rulată cu mozzarella și șuncă", tags: ["pizza", "speciale"] },
-  { id: "8", title: "BBQ Chicken", price: 44.00, img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=300&fit=crop&q=75", desc: "Pui la grătar, sos BBQ, ceapă roșie", tags: ["pizza", "popular"] },
-  { id: "9", title: "Tiramisu", price: 18.00, img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop&q=75", desc: "Desert clasic italian cu mascarpone și cafea", tags: ["desert"] },
-  { id: "10", title: "Panna Cotta", price: 16.00, img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop&q=75", desc: "Cremă italiană cu sos de fructe de pădure", tags: ["desert"] },
-  { id: "11", title: "Limonadă Artizanală", price: 10.00, img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop&q=75", desc: "Limonadă proaspătă cu mentă și ghimbir", tags: ["bautura"] },
-  { id: "12", title: "Apă Minerală", price: 6.00, img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop&q=75", desc: "Apă minerală 500ml", tags: ["bautura"] },
+  // Pizze
+  { id: "1",  title: "Pizza Margherita 520gr",  price: 32, img: "/menu/pizza_margherita.jpg",  desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 200g, rosii chery 20g, busuioc proaspat.", tags: ["pizza"] },
+  { id: "2",  title: "Pizza Complete 680gr",    price: 42, img: "/menu/pizza_complete.jpg",    desc: "ngrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, şuncă praga 70g, salam rustic 40g, ciuperci champignon proaspete 50g, ardei fasii multicolori 20g, măsline 30g, porumb dulce 20g, branza cheddar arancio.", tags: ["pizza"] },
+  { id: "3",  title: "Pizza Forte 600gr",       price: 49, img: "/menu/pizza_forte.jpg",       desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, bacon afumat 30g, şuncă praga 50g, salam rustic 30g, cârnaţ de casa uscat 20g, salam chorizo uscat 30g, nuggets pui 20g.", tags: ["pizza"] },
+  { id: "4",  title: "Pizza Hot 600gr",         price: 43, img: "/menu/pizza_hot.jpg",         desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, salam chorizo uscat 100g, măsline 50g, ardei iute proaspat si chili fulgi.", tags: ["pizza"] },
+  { id: "5",  title: "Pizza Chicken 500gr",     price: 44, img: "/menu/pizza_chicken.jpg",     desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 50g, mozzarella 130g, nuggets pui 80g, branza cheddar arancio 10g, masline 20 g, rucola.", tags: ["pizza"] },
+  { id: "6",  title: "Pizza Bacon 600gr",       price: 45, img: "/menu/pizza_bacon.jpg",       desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, bacon afumat 80g, cărnaţ de casa uscat 40g, ceapă rosie 10g, ardei fasii multicolori 30g, rucola.", tags: ["pizza"] },
+  { id: "7",  title: "Pizza US No.1 580gr",     price: 45, img: "/menu/pizza_US_No1.jpg",      desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, salam chorizo uscat 80g, ciuperci champignon proaspete 20g, măsline 30g.", tags: ["pizza"] },
+  { id: "8",  title: "Pizza Ton 580gr",         price: 43, img: "/menu/pizza_ton.jpg",         desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, ton 80g, masline 40g, porumb dulce 10g, ceapă rosie.", tags: ["pizza"] },
+  { id: "9",  title: "Pizza Rustic",      price: 42, img: "/menu/pizza_rustic.jpg",      desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, cârnaţi de casa uscat 40g, şuncă praga 70g, ciuperci champignon proaspete 40g.", tags: ["pizza"] },
+  { id: "10", title: "Pizza Impuls 600gr",      price: 42, img: "/menu/pizza_impuls.jpg",      desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g ei, sunca praga 50g, salam rustic 30g, ciuperci champignon proaspete 40g, masline 30g, ardei fasii multicolori 10g.", tags: ["pizza"] },
+  { id: "11", title: "Pizza Target 550gr",      price: 42, img: "/menu/pizza_target.jpg",      desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, şuncă praga 50g, salam rustic 20g, ciuperci champignon proaspete 20g, măsline 20g.", tags: ["pizza"] },
+  { id: "12", title: "Pizza Cheese Plus 550gr",     price: 42, img: "/menu/pizza_cheeseplus.jpg",  desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, branza cheddar arancio 50g, formagio blu (gorgonzola) 30g, parmezan 20g.", tags: ["pizza"] },
+  { id: "13", title: "Pizza Primavera 670gr",     price: 44, img: "/menu/pizza_primavera.jpg",  desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, şuncă praga 80g, ciuperci champignon proaspete 50g, broccoli 20g, ardei fasii multicolori 30g, roşii chery 20g, porumb dulce 20g.", tags: ["pizza"] },
+  { id: "14", title: "Pizza Vegetable 600gr",   price: 40, img: "/menu/pizza_vegetable.jpg",   desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, ciuperci champignon proaspete 50g, ardei fasii multicolori 20g, porumb dulce 20g, măsline 40g, roşii chery 10g, broccoli 20g, ceapa rosie, usturoi granule.", tags: ["pizza"] },
+  { id: "15", title: "Pizza Vegan 600gr",       price: 40, img: "/menu/pizza_vegan.jpg",       desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, tofu afumat (branza din soia) 100g, ciuperci champignon proaspete 70g, ardei fasii multicolori 20g, porumb dulce 20g, măsline 40g, roşii chery 20g, broccoli 20g, ceapa rosie 10g, usturoi granule.", tags: ["pizza"] },
+  { id: "16", title: "Pizza York 530gr",        price: 39, img: "/menu/pizza_york.jpg",        desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, şuncă praga 80g.", tags: ["pizza"] },
+  { id: "17", title: "Pizza Sal 500gr",         price: 39, img: "/menu/pizza_sal.jpg",         desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, salam rustic 70g.", tags: ["pizza"] },
+  { id: "18", title: "Pizza Pro F 550gr",       price: 40, img: "/menu/pizza_pro_f.jpg",       desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, sunca praga 70g, ciuperci champignon proaspete 30g.", tags: ["pizza"] },
+  { id: "19", title: "Pizza Kids (cu surpriza) 550gr",        price: 49, img: "/menu/pizza_kids.jpg",        desc: "Ingrediente: aluat proaspat preparat 230g, sos de roşii aromatizat 70g, mozzarella 150g, sunca praga 80g, porumb dulce 20g.", tags: ["pizza"] },
+  // Sosuri
+  { id: "20", title: "Sos roșii aromatizat dulce",                price: 6, img: "/menu/sos_rosii.png",                desc: "", tags: ["sos"] },
+  { id: "21", title: "Sos roșii aromatizat picant",          price: 6, img: "/menu/sos_rosii_picant.png",         desc: "", tags: ["sos"] },
+  { id: "22", title: "Ketchup Dulce Tomi",        price: 6, img: "/menu/ketchup_dulce_Tomi.jpg",       desc: "", tags: ["sos"] },
+  { id: "23", title: "Ketchup Picant Tomi",       price: 6, img: "/menu/ketchup_picant_Tomi.jpg",      desc: "", tags: ["sos"] },
+  { id: "24", title: "Sos Maioneză cu Usturoi",   price: 6, img: "/menu/sos_maioneza_cu_usturoi.jpg",  desc: "", tags: ["sos"] },
+  // Băuturi
+  { id: "25", title: "Coca-Cola 500ml",           price: 10, img: "/menu/coca_cola.jpg",                desc: "", tags: ["bautura"] },
+  { id: "26", title: "Coca-Cola 330ml",           price: 9, img: "/menu/coca_cola_330.jpg",            desc: "", tags: ["bautura"] },
+  { id: "27", title: "Coca-Cola Zero Zahar 330ml",            price: 9, img: "/menu/coca_cola_zero_zahar.jpg",     desc: "", tags: ["bautura"] },
+  { id: "28", title: "Fanta Portocale 330ml",     price: 9, img: "/menu/fanta_portocale.jpg",          desc: "", tags: ["bautura"] },
+  { id: "29", title: "Fanta Portocale 500ml",     price: 10, img: "/menu/fanta_portocale_500.jpg",      desc: "", tags: ["bautura"] },
+  { id: "30", title: "FuzeTea Piersică 500ml",          price: 10, img: "/menu/fuzetea_piersica.jpg",         desc: "", tags: ["bautura"] },
+  { id: "31", title: "FuzeTea Fructe de Pădure 500ml",  price: 10, img: "/menu/fuzetea_fructe_padure.jpg",    desc: "", tags: ["bautura"] },
+  { id: "32", title: "Schweppes Tonic 500ml",           price: 10, img: "/menu/schweppes_tonic.jpg",          desc: "", tags: ["bautura"] },
+  { id: "33", title: "Schweppes Mandarină 500ml",       price: 10, img: "/menu/schwepped_mandarina.jpg",      desc: "", tags: ["bautura"] },
+  { id: "34", title: "Cappy Pulpy Portocală 330ml",     price: 10, img: "/menu/Cappy_pulpy_portocala.jpg",    desc: "", tags: ["bautura"] },
+  { id: "35", title: "Cappy Pulpy Piersică 330ml",      price: 10, img: "/menu/Cappy_pulpy_piersica.webp",    desc: "", tags: ["bautura"] },
+  { id: "36", title: "Bere Heineken 500ml",             price: 12, img: "/menu/bere_heineken.jpg",            desc: "", tags: ["bautura"] },
+  { id: "37", title: "Bere Heineken fără alcool 500ml", price: 12, img: "/menu/bere_heineken_fara_alc.jpg",   desc: "", tags: ["bautura"] },
+  { id: "38", title: "Bere Ciuc 500ml",                 price: 12, img: "/menu/bere_ciuc.jpg",                desc: "", tags: ["bautura"] },
+  { id: "39", title: "Apă Minerală Dorna 500ml",        price: 8, img: "/menu/apa_minerala_dorna.jpg",       desc: "", tags: ["bautura"] },
+  { id: "40", title: "Apă Plată Dorna 500ml",           price: 8, img: "/menu/apa_plata_dorna.jpg",          desc: "", tags: ["bautura"] },
+  { id: "41", title: "Cafea Expresso 120ml",                 price: 10, img: "/menu/bere_ciuc.jpg",                desc: "", tags: ["bautura"] },
+  { id: "42", title: "Cafea Cappuccino 200ml",        price: 15, img: "/menu/apa_minerala_dorna.jpg",       desc: "", tags: ["bautura"] },
+  { id: "43", title: "Ceai 200ml",           price: 10, img: "/menu/apa_plata_dorna.jpg",          desc: "", tags: ["bautura"] },
 ];
 
 const FILTERS = [
   ["all", "Toate"],
   ["pizza", "Pizze"],
-  ["piccante", "Piccante"],
-  ["speciale", "Speciale"],
-  ["desert", "Deserturi"],
+  ["sos", "Sosuri"],
   ["bautura", "Băuturi"],
 ];
+
+const ALLERGENS = [
+  "Cereale care conțin gluten (grâu, secară, orz, ovăz, grâu spelt, grâu mare sau hibrizi ai acestora) și produse derivate",
+  "Crustacee și produse derivate",
+  "Ouă și produse derivate",
+  "Pește și produse derivate",
+  "Arahide și produse derivate",
+  "Soia și produse derivate",
+  "Lapte și produse derivate (inclusiv lactoză)",
+  "Fructe cu coajă (migdale, alune de pădure, nuci, anacarde, nuci Pecan, nuci de Brazilia, fistic, nuci de Macadamia) și produse derivate",
+  "Țelină și produse derivate",
+  "Muștar și produse derivate",
+  "Semințe de susan și produse derivate",
+  "Dioxid de sulf și sulfiți în concentrații de peste 10 mg/kg sau 10 mg/litru",
+  "Lupin și produse derivate",
+  "Moluște și produse derivate",
+];
+
+function AllergenSection({ dark }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={`mt-12 rounded-xl border overflow-hidden ${dark ? "border-neutral-700" : "border-gray-200"}`}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        className={`w-full flex items-center justify-between px-6 py-4 text-left transition ${
+          dark ? "bg-neutral-900 hover:bg-neutral-800" : "bg-gray-50 hover:bg-gray-100"
+        }`}>
+        <span className={`font-bold text-sm ${dark ? "text-neutral-200" : "text-gray-800"}`}>
+          ⚠️ Informații alergeni
+        </span>
+        <ChevronDown
+          size={18}
+          className={`transition-transform duration-300 ${open ? "rotate-180" : ""} ${dark ? "text-neutral-400" : "text-gray-500"}`}
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden">
+            <div className={`px-6 py-5 text-sm ${dark ? "bg-neutral-900/50 text-neutral-300" : "bg-white text-gray-700"}`}>
+              <p className="font-semibold mb-3">
+                PREPARATELE NOASTRE POT CONȚINE UNUL SAU MAI MULTE DIN URMĂTOARELE INGREDIENTE CE FAC PARTE DIN GRUPELE RECUNOSCUTE DE ALERGENI.
+              </p>
+              <p className={`mb-3 ${dark ? "text-neutral-400" : "text-gray-500"}`}>
+                Alergenii din alimente se pot încadra conform Directivei 2000/13/CE în următoarele grupe:
+              </p>
+              <ol className={`list-decimal list-inside space-y-1 mb-4 ${dark ? "text-neutral-400" : "text-gray-600"}`}>
+                {ALLERGENS.map((a, i) => (
+                  <li key={i}>{a}</li>
+                ))}
+              </ol>
+              <p className={`mb-2 ${dark ? "text-neutral-300" : "text-gray-700"}`}>
+                Unele produse din meniul nostru pot conține alergeni. În cazul în care sunteți intolerant / alergic la un ingredient, înainte de a comanda orice preparat din meniul nostru consultați lista cu ingredientele conținute de preparate și / sau întrebați personalul Complete Pizza.
+              </p>
+              <p className="font-semibold text-fastfood-orange">Vă mulțumim pentru înțelegere!</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const ProductCard = React.memo(({ item, idx, dark, onSelect, t }) => (
   <motion.div
@@ -172,6 +270,8 @@ function Menu({ dark, filter, setFilter, setSelectedProduct }) {
             <p className={dark ? "text-neutral-400" : "text-gray-500"}>{t("noResults")}</p>
           </div>
         )}
+
+        <AllergenSection dark={dark} />
       </section>
     </section>
   );

@@ -5,6 +5,7 @@ import { useMobileOptimization } from "./hooks/useMobileOptimization";
 import { useLanguage } from "./hooks/useLanguage";
 import { useScrollLock } from "../shared/utils/scrollLock";
 import Navigation from "./components/Navigation";
+import AnnouncementBar from "./components/AnnouncementBar";
 import Hero from "./components/Hero";
 import Menu from "./components/Menu";
 
@@ -54,11 +55,14 @@ function AppContent() {
 
   return (
     <>
+      <AnnouncementBar dark={dark} />
+      <Navigation dark={dark} setDark={setDark} />
+
       <motion.main
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className={`min-h-screen antialiased relative overflow-hidden pt-20 ${
+        className={`min-h-screen antialiased relative overflow-hidden ${
           dark
             ? "dark bg-gradient-to-b from-[#0b0b0b] to-[#111827] text-slate-100"
             : "bg-gradient-to-b from-white to-slate-50 text-slate-900"
@@ -98,8 +102,6 @@ function AppContent() {
           <Footer dark={dark} />
         </Suspense>
       </motion.main>
-
-      <Navigation dark={dark} setDark={setDark} />
 
       {/* Product detail modal — browse only, no ordering */}
       <AnimatePresence>
