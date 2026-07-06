@@ -42,7 +42,7 @@ const CONTENT = {
     s2h1: "2.1 Preferințe stocate local (în browser)",
     s2list1: ["Preferința de temă (întunecată / luminoasă) – stocată în localStorage, nu este transmisă nicăieri", "Preferința de limbă (RO / EN) – stocată în localStorage"],
     s2h2: "2.2 Date tehnice generate automat",
-    s2list2: ["Adresă IP – procesată temporar de serverul de hosting pentru livrarea paginilor web", "Date browser / dispozitiv – procesate de Google Fonts și Google Maps pentru a livra resurse"],
+    s2list2: ["Adresă IP – procesată temporar de serverul de hosting pentru livrarea paginilor web (loguri de server)"],
     s2h3: "2.3 Date de contact (voluntar)",
     s2list3: ["Dacă ne contactezi telefonic sau prin e-mail, prelucrăm datele pe care ni le furnizezi (nume, număr de telefon, e-mail) exclusiv pentru a răspunde solicitării tale"],
     s2h4: "2.4 Ce NU colectăm",
@@ -50,10 +50,9 @@ const CONTENT = {
     s3title: "3. Scopurile și temeiurile prelucrării",
     s3headers: ["Scop", "Temei juridic (GDPR)"],
     s3rows: [
-      ["Afișarea hărții interactive (Google Maps)", "Art. 6(1)(a) – consimțământ (cookie-uri funcționale)"],
-      ["Livrarea fonturilor web (Google Fonts)", "Art. 6(1)(f) – interes legitim – funcționalitate site"],
+      ["Livrarea site-ului (pagini, fonturi și imagini găzduite local)", "Art. 6(1)(f) – interes legitim – funcționalitatea site-ului"],
       ["Răspuns la solicitări de contact", "Art. 6(1)(b) – executarea unui contract / Art. 6(1)(f) – interes legitim"],
-      ["Analize anonime de trafic (dacă sunt activate)", "Art. 6(1)(a) – consimțământ explicit"],
+      ["Deschiderea locației pe Google Maps (doar dacă apeși linkul „Vezi pe hartă”)", "Art. 6(1)(f) – interes legitim / acțiune inițiată de tine"],
     ],
     s4title: "4. Cât timp păstrăm datele",
     s4list: [
@@ -64,9 +63,8 @@ const CONTENT = {
     s5title: "5. Terțe părți care primesc datele tale",
     s5p: ["Colaborăm cu furnizorii de mai jos. ", "Nu vindem niciodată datele tale.", ""],
     s5providers: [
-      { name: "Google Maps", country: "SUA (protecție adecvată – Data Privacy Framework UE-SUA)", purpose: "Hartă interactivă cu locația restaurantului – activată doar cu consimțământul tău", legal: "Consimțământ (cookie-uri funcționale)", link: "https://policies.google.com/privacy" },
-      { name: "Google Fonts", country: "SUA (Data Privacy Framework UE-SUA)", purpose: "Furnizare fonturi web (Poppins, Inter)", legal: "Interes legitim – funcționalitate site", link: "https://policies.google.com/privacy" },
-      { name: "Unsplash", country: "Canada / CDN global", purpose: "Imagini decorative (hero section)", legal: "Interes legitim", link: "https://unsplash.com/privacy" },
+      { name: "Furnizor de hosting", country: "UE", purpose: "Găzduiește și livrează paginile web; procesează temporar adresa IP în logurile serverului. Fonturile și imaginile sunt găzduite local, nu prin terți.", legal: "Interes legitim – funcționarea și securitatea site-ului", link: "" },
+      { name: "Google Maps", country: "SUA (Data Privacy Framework UE-SUA)", purpose: "Se deschide într-o filă nouă doar dacă apeși linkul „Vezi pe hartă”. Nu se încarcă pe acest site și nu setează cookie-uri fără acțiunea ta.", legal: "Interes legitim – acțiune inițiată de tine", link: "https://policies.google.com/privacy" },
     ],
     s5labels: { purpose: "Scop:", country: "Locație:", legal: "Temei:", policy: "Politică:" },
     s6title: "6. Drepturile tale (GDPR, art. 15-22)",
@@ -113,7 +111,7 @@ const CONTENT = {
     s2h1: "2.1 Preferences stored locally (in your browser)",
     s2list1: ["Theme preference (dark / light) – stored in localStorage, never transmitted", "Language preference (RO / EN) – stored in localStorage"],
     s2h2: "2.2 Automatically generated technical data",
-    s2list2: ["IP address – temporarily processed by the hosting server to deliver web pages", "Browser / device data – processed by Google Fonts and Google Maps to deliver resources"],
+    s2list2: ["IP address – temporarily processed by the hosting server to deliver web pages (server logs)"],
     s2h3: "2.3 Contact data (voluntary)",
     s2list3: ["If you contact us by phone or email, we process the data you provide (name, phone number, email) solely to respond to your request"],
     s2h4: "2.4 What we do NOT collect",
@@ -121,10 +119,9 @@ const CONTENT = {
     s3title: "3. Purposes & Legal Bases for Processing",
     s3headers: ["Purpose", "Legal basis (GDPR)"],
     s3rows: [
-      ["Displaying the interactive map (Google Maps)", "Art. 6(1)(a) – consent (functional cookies)"],
-      ["Delivering web fonts (Google Fonts)", "Art. 6(1)(f) – legitimate interest – site functionality"],
+      ["Delivering the site (pages, fonts and images hosted locally)", "Art. 6(1)(f) – legitimate interest – site functionality"],
       ["Responding to contact requests", "Art. 6(1)(b) – performance of a contract / Art. 6(1)(f) – legitimate interest"],
-      ["Anonymous traffic analytics (if enabled)", "Art. 6(1)(a) – explicit consent"],
+      ["Opening the location on Google Maps (only if you click the “View on map” link)", "Art. 6(1)(f) – legitimate interest / action initiated by you"],
     ],
     s4title: "4. How Long We Retain Data",
     s4list: [
@@ -135,9 +132,8 @@ const CONTENT = {
     s5title: "5. Third Parties Receiving Your Data",
     s5p: ["We work with the providers below. ", "We never sell your data.", ""],
     s5providers: [
-      { name: "Google Maps", country: "USA (adequate protection – EU-US Data Privacy Framework)", purpose: "Interactive map showing restaurant location – enabled only with your consent", legal: "Consent (functional cookies)", link: "https://policies.google.com/privacy" },
-      { name: "Google Fonts", country: "USA (EU-US Data Privacy Framework)", purpose: "Web font delivery (Poppins, Inter)", legal: "Legitimate interest – site functionality", link: "https://policies.google.com/privacy" },
-      { name: "Unsplash", country: "Canada / global CDN", purpose: "Decorative images (hero section)", legal: "Legitimate interest", link: "https://unsplash.com/privacy" },
+      { name: "Hosting provider", country: "EU", purpose: "Hosts and delivers the web pages; temporarily processes your IP address in server logs. Fonts and images are hosted locally, not via third parties.", legal: "Legitimate interest – site operation and security", link: "" },
+      { name: "Google Maps", country: "USA (EU-US Data Privacy Framework)", purpose: "Opens in a new tab only if you click the “View on map” link. It does not load on this site and sets no cookies without your action.", legal: "Legitimate interest – action initiated by you", link: "https://policies.google.com/privacy" },
     ],
     s5labels: { purpose: "Purpose:", country: "Location:", legal: "Legal basis:", policy: "Policy:" },
     s6title: "6. Your Rights (GDPR, art. 15-22)",
@@ -243,7 +239,7 @@ export default function PrivacyPolicy({ dark }) {
                   <Li><B>{c.s5labels.purpose}</B> {p.purpose}</Li>
                   <Li><B>{c.s5labels.country}</B> {p.country}</Li>
                   <Li><B>{c.s5labels.legal}</B> {p.legal}</Li>
-                  <Li><B>{c.s5labels.policy}</B>{" "}<a href={p.link} target="_blank" rel="noopener noreferrer" className="text-fastfood-orange underline">{p.link}</a></Li>
+                  {p.link && <Li><B>{c.s5labels.policy}</B>{" "}<a href={p.link} target="_blank" rel="noopener noreferrer" className="text-fastfood-orange underline">{p.link}</a></Li>}
                 </Ul>
               </div>
             ))}

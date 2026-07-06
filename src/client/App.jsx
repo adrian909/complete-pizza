@@ -27,7 +27,6 @@ function LoadingFallback() {
 
 const STATIC_LOCATION = {
   name: "Alba Iulia – Cetate, str. Constantin Brancoveanu (Vanatorilor), nr 21, colt cu Stefan cel Mare (Mesteacanului)",
-  mapLink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2767.776706118692!2d23.560654611968136!3d46.07549339232442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x474ea9579ef98093%3A0x4c46ac0bc10dffdd!2sComplete%20Pizza!5e0!3m2!1sro!2sro!4v1777983512125!5m2!1sro!2sro",
   googleMapsLink: "https://www.google.com/maps/place/Complete+Pizza/@46.0754934,23.5606546,17z/data=!3m1!4b1!4m6!3m5!1s0x474ea9579ef98093:0x4c46ac0bc10dffdd!8m2!3d46.0754897!4d23.5632349!16s%2Fg%2F11gh5phh4_?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D",
 };
 

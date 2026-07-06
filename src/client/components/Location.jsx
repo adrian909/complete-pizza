@@ -5,7 +5,6 @@ import { useLanguage } from "../hooks/useLanguage";
 export default function Location({ dark, location }) {
   const { t } = useLanguage();
   const locName = location?.name || "Alba Iulia";
-  const mapLink = location?.mapLink || "";
   const googleMapsLink = location?.googleMapsLink || "";
 
   return (
@@ -122,24 +121,29 @@ export default function Location({ dark, location }) {
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: false }}
-          className={`rounded-2xl overflow-hidden border ${
-            dark ? "border-neutral-700/50" : "border-gray-200"
+          className={`relative rounded-2xl overflow-hidden border h-80 flex flex-col items-center justify-center text-center gap-4 px-6 ${
+            dark
+              ? "border-neutral-700/50 bg-gradient-to-br from-fastfood-red/10 via-fastfood-orange/10 to-fastfood-yellow/10"
+              : "border-gray-200 bg-gradient-to-br from-fastfood-red/5 via-fastfood-orange/5 to-fastfood-yellow/5"
           }`}>
-          {mapLink ? (
-            <iframe
-              width="100%"
-              height="320"
-              style={{ border: 0 }}
-              loading="lazy"
-              allowFullScreen=""
-              referrerPolicy="no-referrer-when-downgrade"
-              src={mapLink}
-              title="Locația Complete Pizza"
-            />
-          ) : (
-            <div className="w-full h-80 flex items-center justify-center bg-neutral-800/20">
-              <p className={dark ? "text-neutral-400" : "text-gray-500"}>Harta nu este disponibilă</p>
-            </div>
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-fastfood-red to-fastfood-orange flex items-center justify-center shadow-lg">
+            <MapPin size={28} className="text-white" />
+          </div>
+          <p className={`text-sm font-medium max-w-xs ${dark ? "text-neutral-300" : "text-gray-700"}`}>
+            {locName}
+          </p>
+          {googleMapsLink && (
+            <motion.a
+              href={googleMapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-fastfood-red to-fastfood-orange text-white text-sm font-bold transition hover:shadow-lg hover:shadow-fastfood-red/30">
+              <MapPin size={15} />
+              {t("location")}
+              <ExternalLink size={13} />
+            </motion.a>
           )}
         </motion.div>
       </div>

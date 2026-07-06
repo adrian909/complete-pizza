@@ -113,9 +113,12 @@ export default function About({ dark }) {
             viewport={{ once: false }}
             className="relative h-64 rounded-xl overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop&q=75"
+              src="/img/about.jpg"
               alt="Complete Pizza"
               className="w-full h-full object-cover"
+              loading="lazy"
+              width="600"
+              height="400"
             />
           </motion.div>
         </div>

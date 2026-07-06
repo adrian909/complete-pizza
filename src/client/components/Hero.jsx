@@ -141,14 +141,14 @@ export default function Hero({ dark }) {
                 {...floatingAnimation}
                 className="relative w-96 h-96 md:w-[680px] md:h-[680px] bg-gradient-to-br from-fastfood-red/20 to-fastfood-orange/20 border-2 border-fastfood-orange/50 rounded-full overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=500&fit=crop&q=60&auto=format"
+                  src="/img/pizza-hero.jpg"
                   alt="Complete Pizza"
                   className="w-full h-full object-cover"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  srcSet="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=300&fit=crop&q=50&auto=format 300w, https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&h=500&fit=crop&q=60&auto=format 500w, https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=600&fit=crop&q=65&auto=format 600w"
-                  sizes="(max-width: 768px) 300px, 500px"
+                  width="600"
+                  height="600"
                 />
               </motion.div>
             </div>
