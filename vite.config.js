@@ -1,7 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import fs from 'fs'
-import path from 'path'
 
 // Inject a strict Content-Security-Policy into the production HTML only.
 // Kept out of dev so it doesn't block Vite's inline HMR / React Refresh scripts.
@@ -20,26 +18,8 @@ const cspPlugin = {
   },
 };
 
-// Convert Vite-injected blocking CSS links to async preload pattern.
-const asyncCSSPlugin = {
-  name: 'async-css',
-  apply: 'build',
-  closeBundle() {
-    const htmlPath = path.resolve(process.cwd(), 'dist/index.html');
-    if (!fs.existsSync(htmlPath)) return;
-    let html = fs.readFileSync(htmlPath, 'utf-8');
-    html = html.replace(
-      /<link rel="stylesheet" crossorigin href="([^"]+)">/g,
-      (_, href) =>
-        `<link rel="preload" as="style" crossorigin href="${href}" onload="this.onload=null;this.rel='stylesheet'">` +
-        `<noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
-    );
-    fs.writeFileSync(htmlPath, html);
-  },
-};
-
 export default defineConfig({
-  plugins: [react(), cspPlugin, asyncCSSPlugin],
+  plugins: [react(), cspPlugin],
   build: {
     target: 'esnext',
     minify: 'esbuild',
