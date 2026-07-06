@@ -3,6 +3,23 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
+// Inject a strict Content-Security-Policy into the production HTML only.
+// Kept out of dev so it doesn't block Vite's inline HMR / React Refresh scripts.
+const cspPlugin = {
+  name: 'inject-csp',
+  apply: 'build',
+  transformIndexHtml(html) {
+    const csp =
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; " +
+      "font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'none'; " +
+      "object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:;";
+    return html.replace(
+      '<meta http-equiv="X-Content-Type-Options" content="nosniff">',
+      `<meta http-equiv="Content-Security-Policy" content="${csp}">\n    <meta http-equiv="X-Content-Type-Options" content="nosniff">`
+    );
+  },
+};
+
 // Convert Vite-injected blocking CSS links to async preload pattern.
 const asyncCSSPlugin = {
   name: 'async-css',
@@ -22,7 +39,7 @@ const asyncCSSPlugin = {
 };
 
 export default defineConfig({
-  plugins: [react(), asyncCSSPlugin],
+  plugins: [react(), cspPlugin, asyncCSSPlugin],
   build: {
     target: 'esnext',
     minify: 'esbuild',
