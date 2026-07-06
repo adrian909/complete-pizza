@@ -37,7 +37,7 @@
     <meta name="twitter:image" content="https://completepizza.ro/logo.png">
 
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -106,21 +106,8 @@
     }
     </script>
 
-    <!-- Dark mode before first paint -->
-    <script>
-      try {
-        var t = localStorage.getItem('theme');
-        var dark = t === null ? true : JSON.parse(t);
-        if (dark) document.documentElement.classList.add('dark');
-        var s = document.createElement('style');
-        s.textContent = dark
-          ? 'body{background-color:#111111;background-image:linear-gradient(135deg,#0f0f0f 0%,#1a1a2e 50%,#16213e 100%)}'
-          : 'body{background-color:#ffffff;background-image:linear-gradient(135deg,#ffffff 0%,#f8f9fa 50%,#e8eef2 100%)}';
-        document.head.appendChild(s);
-      } catch(e) {
-        document.documentElement.classList.add('dark');
-      }
-    </script>
+    <!-- Dark mode before first paint (external so CSP can drop script-src 'unsafe-inline') -->
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

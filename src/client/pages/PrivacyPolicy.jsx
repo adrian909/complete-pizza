@@ -93,6 +93,7 @@ const CONTENT = {
     s10title: "10. Modificări ale politicii",
     s10p: "Putem actualiza această politică. Orice modificare semnificativă va fi anunțată printr-un mesaj vizibil pe site. Data ultimei actualizări este afișată în antetul acestei pagini.",
     contactTitle: "Contact privind datele personale",
+    contactDPOLabel: "Responsabil cu protecția datelor:",
   },
   en: {
     docTitle: "Privacy Policy – Complete Pizza",
@@ -162,6 +163,7 @@ const CONTENT = {
     s10title: "10. Policy Changes",
     s10p: "We may update this policy. Any significant changes will be announced via a visible notice on the site. The date of the last update is shown in the header of this page.",
     contactTitle: "Personal data contact",
+    contactDPOLabel: "Data Protection Contact:",
   },
 };
 
@@ -278,9 +280,10 @@ export default function PrivacyPolicy({ dark }) {
             {c.contactTitle}
           </h3>
           <div className="space-y-2 text-sm">
-            <div className="flex items-center gap-2"><Mail size={16} className="text-fastfood-orange" /><span>hello@completepizza.ro</span></div>
-            <div className="flex items-center gap-2"><Phone size={16} className="text-fastfood-orange" /><span>+40 (744) 299 399</span></div>
+            <div className="flex items-center gap-2"><Mail size={16} className="text-fastfood-orange" /><a href="mailto:hello@completepizza.ro" className="text-fastfood-orange underline">hello@completepizza.ro</a></div>
+            <div className="flex items-center gap-2"><Phone size={16} className="text-fastfood-orange" /><a href="tel:+40744299399" className="hover:text-fastfood-orange transition">+40 (744) 299 399</a></div>
             <div className="flex items-center gap-2"><MapPin size={16} className="text-fastfood-orange" /><span>Alba Iulia – Cetate, str. Constantin Brâncoveanu nr. 21, jud. Alba</span></div>
+            <div className="flex items-start gap-2 pt-1"><Mail size={16} className="text-fastfood-orange mt-0.5" /><span><b>{c.contactDPOLabel}</b>{" "}<a href="mailto:hello@completepizza.ro" className="text-fastfood-orange underline">hello@completepizza.ro</a></span></div>
           </div>
         </div>
       </div>
