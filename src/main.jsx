@@ -2,15 +2,12 @@ import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './client/styles/index.css'
 import App from './client/App.jsx'
-import CookieBanner from './client/components/CookieBanner.jsx'
 import { LanguageProvider } from './client/context/LanguageContext.jsx'
 
 const PrivacyPolicy = lazy(() => import('./client/pages/PrivacyPolicy.jsx'));
-const CookiePolicy = lazy(() => import('./client/pages/CookiePolicy.jsx'));
 
 const LEGAL_ROUTES = {
   '/privacy': PrivacyPolicy,
-  '/cookie-policy': CookiePolicy,
 };
 
 function LegalNav({ dark }) {
@@ -45,7 +42,6 @@ function Root() {
       ) : (
         <App />
       )}
-      <CookieBanner />
     </LanguageProvider>
   );
 }

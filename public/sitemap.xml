@@ -12,10 +12,4 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-  <url>
-    <loc>https://completepizza.ro/cookie-policy</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
 </urlset>

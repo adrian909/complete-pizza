@@ -7,7 +7,7 @@ export const translations = {
 
     // Hero
     heroTitle: "Complete",
-    heroSubtitle: "Dacă nu reuşeşti de prima dată, comandă pizza Complete",
+    heroSubtitle: "Dacă nu reuşeşti de prima dată, comandă pizza Complete.",
     orderNow: "Comandă acum",
 
     // Menu
@@ -52,33 +52,14 @@ export const translations = {
     // Footer
     footerTagline: "Dacă nu reuşeşti de prima dată, comandă pizza Complete",
     footerCTA: "Gata de o pizza delicioasă?",
-    footerLocation: "Alba, Alba Iulia",
+    footerLocation: "Alba Iulia – Cetate, str. Constantin Brancoveanu (Vanatorilor), nr 21, colt cu Stefan cel Mare (Mesteacanului)",
     footerHoursLabel: "Luni - Sâmbătă: 10:00 - 22:00",
     footerHoursSun: "Duminică: 11:00 - 22:00",
     followUs: "Urmărește-ne",
     phone: "Contact",
     footerPrivacy: "Politică de confidențialitate",
-    footerCookies: "Politică cookie-uri",
-    footerCookieSettings: "Setări cookie-uri",
     "©": "© 2026 Complete Pizza. Toate drepturile rezervate.",
     createdBy: "Acest website a fost creat de",
-
-    // Cookie Banner
-    cookieBannerTitle: "Îți respectăm confidențialitatea",
-    cookieBannerDesc: "Folosim cookie-uri esențiale pentru funcționarea site-ului. Cu acordul tău, activăm și funcții suplimentare (hărți, chat). Citește",
-    cookieBannerPolicyLink: "Politica de Cookie-uri",
-    cookieBannerBtnSettings: "Setări",
-    cookieBannerBtnEssential: "Doar esențiale",
-    cookieBannerBtnSave: "Salvează",
-    cookieBannerBtnAcceptAll: "Acceptă toate",
-    cookieCatEssentialLabel: "Esențiale",
-    cookieCatEssentialDesc: "Necesare pentru funcționarea site-ului. Nu pot fi dezactivate.",
-    cookieCatFunctionalLabel: "Funcționale",
-    cookieCatFunctionalDesc: "Activează funcții avansate: hărți interactive (Google Maps).",
-    cookieCatAnalyticsLabel: "Analiză",
-    cookieCatAnalyticsDesc: "Ne ajută să înțelegem cum utilizezi site-ul prin statistici anonimizate.",
-    cookieCatMarketingLabel: "Marketing",
-    cookieCatMarketingDesc: "Cookie-uri pentru publicitate personalizată. În prezent NU utilizăm cookie-uri de marketing.",
 
     // Language
     language: "Limba",
@@ -95,7 +76,7 @@ export const translations = {
 
     // Hero
     heroTitle: "Complete",
-    heroSubtitle: "If you don't succeed the first time, order Complete pizza",
+    heroSubtitle: "If you don't succeed the first time, order Complete pizza.",
     orderNow: "Order now",
 
     // Menu
@@ -140,33 +121,14 @@ export const translations = {
     // Footer
     footerTagline: "If you don't succeed the first time, order Complete pizza",
     footerCTA: "Ready for delicious pizza?",
-    footerLocation: "Alba, Alba Iulia",
+    footerLocation: "Alba Iulia – Cetate, str. Constantin Brancoveanu (Vanatorilor), nr 21, colt cu Stefan cel Mare (Mesteacanului)",
     footerHoursLabel: "Mon - Sat: 10:00 - 22:00",
     footerHoursSun: "Sunday: 11:00 - 22:00",
     followUs: "Follow us",
     phone: "Contact",
     footerPrivacy: "Privacy policy",
-    footerCookies: "Cookie policy",
-    footerCookieSettings: "Cookie settings",
     "©": "© 2026 Complete Pizza. All rights reserved.",
     createdBy: "This website was created by",
-
-    // Cookie Banner
-    cookieBannerTitle: "We respect your privacy",
-    cookieBannerDesc: "We use essential cookies to keep the site running. With your consent, we also enable extra features (maps). Read our",
-    cookieBannerPolicyLink: "Cookie Policy",
-    cookieBannerBtnSettings: "Settings",
-    cookieBannerBtnEssential: "Essential only",
-    cookieBannerBtnSave: "Save",
-    cookieBannerBtnAcceptAll: "Accept all",
-    cookieCatEssentialLabel: "Essential",
-    cookieCatEssentialDesc: "Required for the site to work. Cannot be disabled.",
-    cookieCatFunctionalLabel: "Functional",
-    cookieCatFunctionalDesc: "Enables advanced features: interactive maps (Google Maps).",
-    cookieCatAnalyticsLabel: "Analytics",
-    cookieCatAnalyticsDesc: "Helps us understand how you use the site through anonymised statistics.",
-    cookieCatMarketingLabel: "Marketing",
-    cookieCatMarketingDesc: "Cookies for personalised advertising. We currently do NOT use marketing cookies.",
 
     // Language
     language: "Language",

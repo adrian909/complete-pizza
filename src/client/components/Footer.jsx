@@ -126,13 +126,6 @@ export default function Footer({ dark }) {
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
             <a href="/privacy" className="hover:text-fastfood-orange transition">{t("footerPrivacy")}</a>
-            <a href="/cookie-policy" className="hover:text-fastfood-orange transition">{t("footerCookies")}</a>
-            <button
-              onClick={() => window.dispatchEvent(new Event("openCookieSettings"))}
-              className="hover:text-fastfood-orange transition cursor-pointer bg-transparent border-none p-0 font-[inherit] text-[inherit]"
-            >
-              {t("footerCookieSettings")}
-            </button>
           </div>
         </div>
       </div>

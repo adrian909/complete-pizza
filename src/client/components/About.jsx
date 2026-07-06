@@ -1,13 +1,11 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { smoothScrollTo } from "../../shared/utils/smoothScroll";
 import { Star, Users, Truck, MapPin } from "lucide-react";
 import { useLanguage } from "../hooks/useLanguage";
 
 export default function About({ dark }) {
   const { t } = useLanguage();
   const stats = [
-    { icon: Users, label: t("happyClients"), value: "1000+", color: "text-fastfood-blue" },
+    { icon: Users, label: t("happyClients"), value: "2000+", color: "text-fastfood-blue" },
     { icon: Truck, label: t("deliveriesCompleted"), value: "1000+", color: "text-fastfood-orange" },
     { icon: MapPin, label: t("locations"), value: "1", color: "text-fastfood-yellow" },
     { icon: Star, label: t("averageRating"), value: "3.9★", color: "text-fastfood-red" },
@@ -91,8 +89,8 @@ export default function About({ dark }) {
         viewport={{ once: false, amount: 0.1 }}
         className={`rounded-2xl border p-8 mb-28 ${
           dark
-            ? "bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 border-fastfood-orange/30"
-            : "bg-gradient-to-br from-white/50 to-gray-50/50 border-gray-300"
+            ? "bg-neutral-900/60 border-neutral-700/50"
+            : "bg-white border-gray-200"
         }`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <motion.div
@@ -139,8 +137,8 @@ export default function About({ dark }) {
               whileHover={{ scale: 1.05, y: -5 }}
               className={`rounded-xl p-6 border text-center ${
                 dark
-                  ? "bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 border-fastfood-orange/30 hover:border-fastfood-orange/60"
-                  : "bg-gradient-to-br from-white/50 to-gray-50/50 border-gray-300 hover:border-gray-400"
+                  ? "bg-neutral-900/60 border-neutral-700/50 hover:border-fastfood-orange/40"
+                  : "bg-white border-gray-200 hover:border-fastfood-orange/40"
               }`}>
               <Icon className={`${stat.color} mx-auto mb-3`} size={32} />
               <div className={`text-3xl font-black mb-2 ${stat.color}`}>{stat.value}</div>
@@ -173,8 +171,8 @@ export default function About({ dark }) {
               whileHover={{ scale: 1.02, y: -5 }}
               className={`rounded-xl p-6 border ${
                 dark
-                  ? "bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 border-fastfood-orange/30"
-                  : "bg-gradient-to-br from-white/50 to-gray-50/50 border-gray-300"
+                  ? "bg-neutral-900/60 border-neutral-700/50"
+                  : "bg-white border-gray-200"
               }`}>
               <h4 className="font-bold text-lg mb-3 text-fastfood-orange">{value.title}</h4>
               <p className={dark ? "text-neutral-300" : "text-gray-700"}>{value.description}</p>
